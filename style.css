@@ -1,0 +1,41 @@
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --dark-grey: #292b31;
+}
+h1,
+h2 {
+  margin: 0px;
+  padding: 0px;
+}
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #17181c;
+}
+
+.header-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: var(--dark-grey);
+  height: 70px;
+}
+.header-text {
+  font-size: 1.5rem;
+  color: white;
+}
+
+.main-container,
+.address-container {
+  color: white;
+  width: 100%;
+  margin-top: 20px;
+  background-color: var(--dark-grey);
+}
+
+.subheader-text {
+  color: white;
+}
