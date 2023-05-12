@@ -21,7 +21,17 @@ function loadAddress() {
     //Update address header
     const addressHeader = document.getElementById("address-header");
     addressHeader.innerHTML = formData.addr;
+
+    test();
   }
+}
+
+async function test() {
+  const url = "https://cardano-mainnet.blockfrost.io/api/v0/health"
+  console.log(API_KEY);
+  const response = await fetch(url, { headers: { 'project_id': `${API_KEY}` } })
+  const jsonData = await response.json();
+  console.log(jsonData);
 }
 
 function addEventListener() {

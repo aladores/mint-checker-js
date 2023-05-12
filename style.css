@@ -1,6 +1,16 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  --dark-grey: #292b31;
+
+  --black: black;
+  --dark-grey: #17181c;
+  --medium-grey: #222433;
+
+  --darkest-blue: #1a1c2b;
+  --dark-blue: #222433;
+
+  --medium-blue: #1d2e4a;
+  --light-blue: #203354;
+  --lightest-blue: #305596;
 }
 h1,
 h2 {
@@ -11,31 +21,54 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #17181c;
+  background-color: var(--medium-grey);
 }
 
 .header-container {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  padding-left: 100px;
   width: 100%;
-  background-color: var(--dark-grey);
   height: 70px;
 }
-.header-text {
-  font-size: 1.5rem;
-  color: white;
+
+.cardano-logo {
+  width: 40px;
+  height: 40px;
+}
+.main-container {
+  height: 500px;
+  width: 80%;
 }
 
-.main-container,
-.address-container {
+.title-text {
+  font-size: 1.8rem;
+  padding-bottom: 25px;
   color: white;
+}
+.form-container {
   width: 100%;
-  margin-top: 20px;
-  background-color: var(--dark-grey);
+  margin-top: 50px;
+}
+.search-bar {
+  font-size: 1rem;
+  border: none;
+  height: 70px;
+  color: rgb(172, 170, 170);
+  width: 100%;
+  background-color: var(--darkest-blue);
+  padding-left: 25px;
 }
 
-.subheader-text {
+.search-row {
+  background-color: black;
+  display: flex;
+}
+
+.submit-button {
+  width: 100px;
+  border: none;
   color: white;
+  background-color: var(--lightest-blue);
+  cursor: pointer;
 }
