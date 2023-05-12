@@ -17,6 +17,10 @@ h2 {
   margin: 0px;
   padding: 0px;
 }
+p {
+  word-break: break-all;
+  white-space: normal;
+}
 body {
   display: flex;
   flex-direction: column;
@@ -32,22 +36,34 @@ body {
   height: 70px;
 }
 
-.cardano-logo {
-  width: 40px;
-  height: 40px;
+.title-row {
+  display: flex;
+  align-items: center;
+  padding-bottom: 25px;
 }
-.main-container {
-  height: 500px;
-  width: 80%;
+
+.cardano-logo-big {
+  width: 70px;
+  height: 70px;
 }
 
 .title-text {
+  padding-left: 25px;
   font-size: 1.8rem;
-  padding-bottom: 25px;
   color: white;
 }
-.form-container {
+
+.main-container {
+  width: 80%;
+  background-color: var(--medium-grey);
+}
+
+.form-container,
+.address-form-container {
   width: 100%;
+}
+
+.form-container {
   margin-top: 50px;
 }
 .search-bar {
@@ -65,10 +81,71 @@ body {
   display: flex;
 }
 
-.submit-button {
-  width: 100px;
+.submit-button,
+.address-submit-button {
+  font-size: 1rem;
+  width: 125px;
   border: none;
   color: white;
   background-color: var(--lightest-blue);
   cursor: pointer;
+}
+
+/***************Address***************/
+
+.address-header-container {
+  width: 80%;
+  display: flex;
+  flex-direction: column;
+}
+.address-header-row {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.cardano-logo-small {
+  width: 30px;
+  height: 30px;
+}
+.address-header-text {
+  padding-left: 20px;
+  font-size: 1.2rem;
+  color: white;
+}
+.address-search-bar {
+  font-size: 0.8rem;
+  border: none;
+  height: 40px;
+  color: rgb(172, 170, 170);
+  width: 100%;
+  background-color: var(--darkest-blue);
+  padding-left: 25px;
+}
+
+.address-submit-button {
+  font-size: 0.8rem;
+  width: 100px;
+}
+
+.address-main-container {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 800px;
+  color: white;
+  background-color: var(--darkest-blue);
+}
+
+.address-container {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+.subheader-text {
+  margin-top: 30px;
 }

@@ -13,18 +13,29 @@
 </head>
 
 <body>
-  <header class="header-container">
-    <h1 class="header-text">CARDANO MINT HELPER</h1>
-    <form class="form-container">
-      <h2 class="subheader-text">Search</h2>
-      <input type="text" id="search-bar" class="search-bar"
-        value="addr1q9ezzague67wzye6lpwvqs8swcr8y4xt87dml4zep99n4ffprcxk4qu56t4u8zhgtsry2l9ual69q9hygznf93v0vyfsh2gq2p">
-      <button type="submit">Submit</button>
+  <header class="address-header-container">
+    <div class="address-header-row">
+      <img src="images/cardano-logo.png" alt="cardano-logo" class="cardano-logo-small">
+      <h1 class="address-header-text">Cardano Mint Checker</h1>
+    </div>
+    <form class="address-form-container">
+      <div class="search-row">
+        <input type="text" id="search-bar" class="address-search-bar"
+          value="addr1q9ezzague67wzye6lpwvqs8swcr8y4xt87dml4zep99n4ffprcxk4qu56t4u8zhgtsry2l9ual69q9hygznf93v0vyfsh2gq2p">
+        <button type="submit" class="address-submit-button">Submit →</button>
+      </div>
     </form>
   </header>
-  <main class="address-container">
-    <h2 class="subheader-text header-two">Address</h2>
-    <p id="address-header"></p>
+  <main class="address-main-container">
+    <div class="address-container">
+      <section class="address-section">
+        <h2 class="subheader-text">Address</h2>
+        <div>
+          <p id="address-header"></p>
+        </div>
+      </section>
+
+    </div>
   </main>
 
   <script type="module" src="js/index.js"></script>
