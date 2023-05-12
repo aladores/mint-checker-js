@@ -1,5 +1,6 @@
 
 import { API_KEY } from './config.js';
+import { MINT_TX_TEST } from './test.js';
 const ALL_TRANSACTION_STRING = "ALL TRANSACTIONS"
 const MINT_STRING = "MINT TRANSACTIONS"
 const ASSET_STRING = "SPECIFIC ASSET"
@@ -28,30 +29,36 @@ function loadAddress() {
 async function updateDom(address) {
   //updateAddress(address);
 
-  //1. Get all transactions
-  const transactions = await getAllTransactions(address);
-  if (transactions.length === 0) {
-    //TO DO
-    console.log("No transactions found in this address.");
-    return;
-  }
+  // //1. Get all transactions
+  // const transactions = await getAllTransactions(address);
+  // if (transactions.length === 0) {
+  //   //TO DO
+  //   console.log("No transactions found in this address.");
+  //   return;
+  // }
 
-  //2. Find if any of those transactions are minted
-  //const testTx = ["88f5251bac8923cb70ae4826b2b491493ccf564fbb2f1384427fca68133f6786"];
-  //const mintTransactions = await getAllMintTransactions(testTx);
-  const mintTransactions = await getAllMintTransactions(transactions);
-  console.log(mintTransactions);
+  // //2. Find if any of those transactions are minted
+  // //const testTx = ["88f5251bac8923cb70ae4826b2b491493ccf564fbb2f1384427fca68133f6786"];
+  // //const mintTransactions = await getAllMintTransactions(testTx);
+  // const mintTransactions = await getAllMintTransactions(transactions);
+  // console.log(mintTransactions);
 
-  if (mintTransactions.length === 0) {
-    //TO DO
-    console.log("No mint transactions found in this address.");
-    return;
-  }
+  // if (mintTransactions.length === 0) {
+  //   //TO DO
+  //   console.log("No mint transactions found in this address.");
+  //   return;
+  // }
 
   //3. Find and replace output amount
-  const mintTxWithName = await getSpecificAsset(mintTransactions);
-  console.log(mintTxWithName);
+  const mintTxWithName = MINT_TX_TEST;
+  //const mintTxWithName = await getSpecificAsset(mintTransactions);
+
+  updateAddressSection(address, mintTxWithName);//Replace with mintTransactions
+
   //4. Format transactions 
+  const formattedTransactions = formatTransactions(mintTxWithName);
+  console.log(formattedTransactions);
+  updateTransactionSection(formattedTransactions);
 
 }
 
@@ -92,12 +99,31 @@ async function getSpecificAsset(mintTransactions) {
         assetName = jsonData.onchain_metadata["name"];
       }
     }
-    console.log(assetName);
+
     //Add asset name to mint transaction
     mintTransactions[i].output_amount[1].name = assetName;
   }
   return mintTransactions;
 }
+
+function formatTransactions(transactions) {
+
+  const formattedTransactions = [];
+  for (let i = 0; i < transactions.length; i++) {
+
+    const { block_time, hash } = transactions[i];
+    const { name } = transactions[i].output_amount[1];
+
+    const formattedDate = new Date(block_time * 1000);
+    formattedTransactions.push({
+      block_time: formattedDate.toLocaleString(),
+      hash: hash,
+      name: name
+    });
+  }
+  return formattedTransactions;
+}
+
 async function fetchData(url, wantedData) {
   console.log("Fetching: ", wantedData)
   const response = await fetch(url, { headers: { 'project_id': `${API_KEY}` } })
@@ -108,11 +134,46 @@ async function fetchData(url, wantedData) {
   const jsonData = await response.json();
   return jsonData;
 }
-// function updateAddress(address) {
-//   //const addressHeader = document.getElementById("address-header");
-//   //addressHeader.innerHTML = address;
-//   //getMintTx(address)
-// }
+
+function updateAddressSection(address, transactions) {
+  const addressSection = document.getElementById("address-section");
+  const addressHeader = document.createElement("h2");
+  addressHeader.innerText = "Address";
+  addressHeader.classList.add("subheader-text");
+  addressSection.appendChild(addressHeader);
+
+  const newDiv = document.createElement("div");
+  newDiv.classList.add("address");
+
+  newDiv.innerHTML = `
+    <p>${address}</p>
+    <p>Mint Transactions: ${transactions.length}</p>
+  `;
+
+  addressSection.appendChild(newDiv);
+
+}
+
+function updateTransactionSection(transactions) {
+  const transactionsSection = document.getElementById("transactions-section");
+  const transactionHeader = document.createElement("h2");
+  transactionHeader.innerText = "Transactions";
+  transactionHeader.classList.add("subheader-text");
+  transactionsSection.appendChild(transactionHeader);
+
+  for (let i = 0; i < transactions.length; i++) {
+    const newDiv = document.createElement("div");
+    newDiv.classList.add("transaction");
+
+    newDiv.innerHTML = `
+      <p>Transaction id: ${transactions[i].hash}</p>
+      <p>Received time: ${transactions[i].block_time}</p>
+      <p>Asset name: ${transactions[i].name}</p>
+    `;
+
+    transactionsSection.appendChild(newDiv);
+  }
+}
 
 function addSearchEventListener() {
   const form = document.querySelector('form');
