@@ -1,7 +1,7 @@
 
 import { API_KEY } from './config.js';
-import { MINT_TX_TEST, MULTIPLE_MINT_TX_TEST } from './test.js';
-import { LARGE_MINT_TX_TEST } from './largeTest.js';
+import { MINT_TX_TEST, MULTIPLE_MINT_TX_TEST } from './tests/test.js';
+import { LARGE_TX_TEST, LARGE_MINT_TX_TEST } from './tests/largeTest.js';
 const ALL_TRANSACTION_STRING = "ALL TRANSACTIONS"
 const MINT_STRING = "MINT TRANSACTIONS"
 const ASSET_STRING = "SPECIFIC ASSET"
@@ -9,8 +9,8 @@ function handleSubmit() {
   const searchBar = document.getElementById("search-bar");
   const searchBarValue = searchBar.value;
 
-  //addr1q9ezzague67wzye6lpwvqs8swcr8y4xt87dml4zep99n4ffprcxk4qu56t4u8zhgtsry2l9ual69q9hygznf93v0vyfsh2gq2p
-  //addr1qydp5tjzex2xa87p8kz9hvm7e7mqj8wul28ylggvvrjf7n5sgq4a3gmwkf5ugalw6hgr8uvv4fk24mnl87hfcsx3pzjs3xkc73
+  //Spam 1: addr1qxyezkc02lpz0y8l587lhckpcjsed0v7wrjayut9alc75xkqgcy2x7t7d58zyt2rydep075va5xluwuqsdpssk60m4fqgccl75
+  //Spam 2: addr1qydp5tjzex2xa87p8kz9hvm7e7mqj8wul28ylggvvrjf7n5sgq4a3gmwkf5ugalw6hgr8uvv4fk24mnl87hfcsx3pzjs3xkc73
   if (!searchBarValue.startsWith("addr")) {
     console.log("Address must begin with addr");
     return;
@@ -29,29 +29,31 @@ function loadAddress() {
 
 async function updateDom(address) {
 
+  toggleAddressLoader();
   //1. Get all transactions
-  // const transactions = await getAllTransactions(address);
-  // if (transactions.length === 0) {
-  //   updateError("No transactions found in this address:", address);
-  //   return;
-  // }
+  const transactions = await getAllTransactions(address);
+  if (transactions.length === 0) {
+    updateError("No transactions found in this address:", address);
+    return;
+  }
 
-  // //2. Find if any of those transactions are minted
-  // const mintTransactions = await getAllMintTransactions(transactions);
-  // if (mintTransactions.length === 0) {
-  //   updateError("No mint transactions found in this address:", address);
-  //   return;
-  // }
+  //2. Find if any of those transactions are minted
+  const mintTransactions = await getAllMintTransactions(transactions);
+  if (mintTransactions.length === 0) {
+    updateError("No mint transactions found in this address:", address);
+    return;
+  }
 
-  // //3. Find and replace output amount
-  // const mintTxWithName = await getSpecificAsset(mintTransactions);
-  // updateAddressSection(address, transactions, mintTxWithName);
-  // console.log(mintTxWithName);
+  //3. Find and replace output amount
+  const mintTxWithName = await getSpecificAsset(mintTransactions);
+  updateAddressSection(address, LARGE_TX_TEST, LARGE_MINT_TX_TEST);
 
   //4. Format transactions 
   const formattedTransactions = formatTransactions(LARGE_MINT_TX_TEST);
 
-  updateTransactionSection(formattedTransactions);
+  setTimeout(() => {
+    updateTransactionSection(formattedTransactions);
+  }, 2000);
 }
 
 async function getAllTransactions(address) {
@@ -162,6 +164,7 @@ async function fetchPaginatedData(url, wantedData) {
 }
 
 function updateAddressSection(address, transactions, mintTransactions) {
+  //Stop svg
   const addressSection = document.getElementById("address-section");
   addressSection.classList.remove("hidden");
   const addressHeader = document.createElement("h2");
@@ -194,6 +197,7 @@ function updateAddressSection(address, transactions, mintTransactions) {
 }
 
 function updateTransactionSection(transactions) {
+  toggleAddressLoader();
   const transactionsSection = document.getElementById("transactions-section");
   transactionsSection.classList.remove("hidden");
   const transactionHeader = document.createElement("h2");
@@ -239,6 +243,7 @@ function updateTransactionSection(transactions) {
   }
 }
 function updateError(error, address) {
+  toggleAddressLoader();
   console.log(error);
   const errorSection = document.getElementById("error-section");
   errorSection.classList.remove("hidden");
@@ -257,6 +262,11 @@ function updateError(error, address) {
   errorSection.appendChild(errorHeader);
   errorSection.appendChild(errorText);
   errorSection.appendChild(addressText);
+}
+
+function toggleAddressLoader() {
+  const loader = document.getElementById("loader");
+  loader.classList.contains("hidden") ? loader.classList.remove("hidden") : loader.classList.add("hidden");
 }
 
 function addSearchEventListener() {
