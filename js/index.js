@@ -1,6 +1,7 @@
 
 import { API_KEY } from './config.js';
 import { MINT_TX_TEST, MULTIPLE_MINT_TX_TEST } from './test.js';
+import { LARGE_MINT_TX_TEST } from './largeTest.js';
 const ALL_TRANSACTION_STRING = "ALL TRANSACTIONS"
 const MINT_STRING = "MINT TRANSACTIONS"
 const ASSET_STRING = "SPECIFIC ASSET"
@@ -41,7 +42,6 @@ async function updateDom(address) {
   //   updateError("No mint transactions found in this address:", address);
   //   return;
   // }
-  // //console.log(mintTransactions);
 
   // //3. Find and replace output amount
   // const mintTxWithName = await getSpecificAsset(mintTransactions);
@@ -49,12 +49,9 @@ async function updateDom(address) {
   // console.log(mintTxWithName);
 
   //4. Format transactions 
-  const formattedTransactions = formatTransactions(MULTIPLE_MINT_TX_TEST);
-  //console.log(formattedTransactions);
+  const formattedTransactions = formatTransactions(LARGE_MINT_TX_TEST);
 
-  //setTimeout(() => {
   updateTransactionSection(formattedTransactions);
-  //}, 5000);
 }
 
 async function getAllTransactions(address) {
@@ -72,7 +69,7 @@ async function getAllMintTransactions(transactions) {
   const mintTransactions = [];
   for (let i = 0; i < transactions.length; i++) {
     const jsonData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/txs/${transactions[i]}`, MINT_STRING);
-    if (jsonData.asset_mint_or_burn_count > 1) {
+    if (jsonData.asset_mint_or_burn_count > 0) {
       mintTransactions.push(jsonData);
     }
   }
@@ -129,7 +126,6 @@ function formatTransactions(transactions) {
     for (let j = 1; j < transactions[i].output_amount.length; j++) {
       //console.log(transactions[i].output_amount[j].name);
       names.push(transactions[i].output_amount[j].name);
-
     }
     console.log(names);
     const formattedDate = new Date(block_time * 1000);
@@ -210,7 +206,8 @@ function updateTransactionSection(transactions) {
     newDiv.classList.add("transaction");
 
     let nameElement = '';
-    for (let j = 1; j < transactions[i].name.length; j++) {
+    console.log(transactions[i].name);
+    for (let j = 0; j < transactions[i].name.length; j++) {
       nameElement += `
           <p>${transactions[i].name[j]}</p>
       `;

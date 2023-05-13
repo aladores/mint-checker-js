@@ -45,7 +45,8 @@ body {
 .title-row {
   display: flex;
   align-items: center;
-  padding-top: 50px;
+  padding-top: 100px;
+  text-decoration: none;
 }
 
 .cardano-logo-big {
@@ -60,7 +61,7 @@ body {
 }
 
 .main-container {
-  width: 80%;
+  width: 50%;
   background-color: var(--medium-grey);
 }
 
@@ -150,7 +151,7 @@ select:-webkit-autofill:focus {
 .address-header-row {
   display: flex;
   justify-content: space-between;
-  width: 80%;
+  width: 50%;
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -178,7 +179,7 @@ select:-webkit-autofill:focus {
 }
 
 .address-form-container {
-  width: 80%;
+  width: 50%;
 }
 
 .address-submit-button {
@@ -211,7 +212,7 @@ select:-webkit-autofill:focus {
 .address-container {
   display: flex;
   flex-direction: column;
-  width: 80%;
+  width: 50%;
 }
 
 .address-text {
@@ -265,6 +266,15 @@ select:-webkit-autofill:focus {
 .error-address-text {
   font-size: 0.9rem;
   color: var(--light-grey);
+}
+
+@media (max-width: 1400px) {
+  .address-header-row,
+  .address-container,
+  .address-form-container,
+  .main-container {
+    width: 70%;
+  }
 }
 
 @media (max-width: 740px) {
