@@ -1,6 +1,6 @@
 
 import { API_KEY } from './config.js';
-import { MINT_TX_TEST } from './test.js';
+import { MINT_TX_TEST, MULTIPLE_MINT_TX_TEST } from './test.js';
 const ALL_TRANSACTION_STRING = "ALL TRANSACTIONS"
 const MINT_STRING = "MINT TRANSACTIONS"
 const ASSET_STRING = "SPECIFIC ASSET"
@@ -28,30 +28,29 @@ function loadAddress() {
 
 async function updateDom(address) {
 
-  // //1. Get all transactions
-  const transactions = await getAllTransactions(address);
-  if (transactions.length === 0) {
-    updateError("No transactions found in this address:", address);
-    return;
-  }
+  //1. Get all transactions
+  // const transactions = await getAllTransactions(address);
+  // if (transactions.length === 0) {
+  //   updateError("No transactions found in this address:", address);
+  //   return;
+  // }
 
-  //2. Find if any of those transactions are minted
-  //const mintTransactions = await getAllMintTransactions(testTx);
-  const mintTransactions = await getAllMintTransactions(transactions);
-  if (mintTransactions.length === 0) {
-    updateError("No mint transactions found in this address:", address);
-    return;
-  }
-  console.log(mintTransactions);
+  // //2. Find if any of those transactions are minted
+  // const mintTransactions = await getAllMintTransactions(transactions);
+  // if (mintTransactions.length === 0) {
+  //   updateError("No mint transactions found in this address:", address);
+  //   return;
+  // }
+  // //console.log(mintTransactions);
 
-  //3. Find and replace output amount
-  //const mintTxWithName = MINT_TX_TEST;
-  const mintTxWithName = await getSpecificAsset(mintTransactions);
-  updateAddressSection(address, transactions, mintTxWithName);//Replace with mintTransactions
+  // //3. Find and replace output amount
+  // const mintTxWithName = await getSpecificAsset(mintTransactions);
+  // updateAddressSection(address, transactions, mintTxWithName);
+  // console.log(mintTxWithName);
 
   //4. Format transactions 
-  const formattedTransactions = formatTransactions(mintTxWithName);
-  console.log(formattedTransactions);
+  const formattedTransactions = formatTransactions(MULTIPLE_MINT_TX_TEST);
+  //console.log(formattedTransactions);
 
   //setTimeout(() => {
   updateTransactionSection(formattedTransactions);
@@ -73,7 +72,7 @@ async function getAllMintTransactions(transactions) {
   const mintTransactions = [];
   for (let i = 0; i < transactions.length; i++) {
     const jsonData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/txs/${transactions[i]}`, MINT_STRING);
-    if (jsonData.asset_mint_or_burn_count === 1) {
+    if (jsonData.asset_mint_or_burn_count > 1) {
       mintTransactions.push(jsonData);
     }
   }
@@ -81,40 +80,63 @@ async function getAllMintTransactions(transactions) {
 }
 async function getSpecificAsset(mintTransactions) {
   let assetName = "";
+  let param = "";
   for (let i = 0; i < mintTransactions.length; i++) {
-    const param = mintTransactions[i].output_amount[1].unit;
-    const jsonData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/assets/${param}`, ASSET_STRING);
-    console.log(jsonData);
-    //For on chain metadata 
-    if (jsonData.onchain_metadata !== null) {
-      if (jsonData.onchain_metadata.hasOwnProperty("asset_ID")) {
-        assetName = jsonData.onchain_metadata["asset ID"];
+    const outputAmountSize = mintTransactions[i].output_amount.length;
+    //TO DO: asset_mint_or_burn_count > 5 
+    //likely chance uxto mint have to find a way to fix that
+    for (let j = 1; j < outputAmountSize; j++) {
+      param = mintTransactions[i].output_amount[j].unit;
+      const jsonData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/assets/${param}`, ASSET_STRING);
+      //Change to switch statement?
+      if (jsonData.onchain_metadata !== null) {
+        if (jsonData.onchain_metadata.hasOwnProperty("asset_ID")) {
+          assetName = jsonData.onchain_metadata["asset ID"];
+        }
+        else if (jsonData.onchain_metadata.hasOwnProperty("name")) {
+          assetName = jsonData.onchain_metadata["name"];
+        }
+        else if (jsonData.onchain_metadata.hasOwnProperty("Name")) {
+          assetName = jsonData.onchain_metadata["Name"];
+        }
+
+        //TO DO: find more specific names if possible
+        else if (jsonData.onchain_metadata.hasOwnProperty("Project")) {
+          assetName = jsonData.onchain_metadata["Project"];
+        }
+        else if (jsonData.onchain_metadata.hasOwnProperty("Project Name")) {
+          assetName = jsonData.onchain_metadata["Project Name"];
+        }
+        else {
+          assetName = "No name found";
+        }
       }
-      else if (jsonData.onchain_metadata.hasOwnProperty("Name")) {
-        assetName = jsonData.onchain_metadata["Name"];
-      }
-      else {
-        assetName = jsonData.onchain_metadata["name"];
-      }
+      //Add asset name to mint transaction
+      mintTransactions[i].output_amount[j].name = assetName;
     }
-    //Add asset name to mint transaction
-    mintTransactions[i].output_amount[1].name = assetName;
   }
+
+  //console.log(jsonData);
   return mintTransactions;
 }
 
 function formatTransactions(transactions) {
   const formattedTransactions = [];
+
   for (let i = 0; i < transactions.length; i++) {
-
+    let names = [];
     const { block_time, hash } = transactions[i];
-    const { name } = transactions[i].output_amount[1];
+    for (let j = 1; j < transactions[i].output_amount.length; j++) {
+      //console.log(transactions[i].output_amount[j].name);
+      names.push(transactions[i].output_amount[j].name);
 
+    }
+    console.log(names);
     const formattedDate = new Date(block_time * 1000);
     formattedTransactions.push({
       block_time: formattedDate.toLocaleString(),
       hash: hash,
-      name: name
+      name: names
     });
   }
   return formattedTransactions;
@@ -187,6 +209,13 @@ function updateTransactionSection(transactions) {
     const newDiv = document.createElement("div");
     newDiv.classList.add("transaction");
 
+    let nameElement = '';
+    for (let j = 1; j < transactions[i].name.length; j++) {
+      nameElement += `
+          <p>${transactions[i].name[j]}</p>
+      `;
+    }
+
     newDiv.innerHTML = `
       <div class="transaction-row">
         <p class="transaction-label">Transaction id: </p>
@@ -198,12 +227,14 @@ function updateTransactionSection(transactions) {
         </p>
       </div>
       <div class="transaction-row">
-      <p  class="transaction-label"> Received time: </p>
-      <p> ${transactions[i].block_time}</p>
+        <p  class="transaction-label"> Received time: </p>
+        <p> ${transactions[i].block_time}</p>
       </div>
       <div class="transaction-row">
-      <p  class="transaction-label"> Asset name: </p>
-      <p> ${transactions[i].name}</p>
+        <p  class="transaction-label"> Asset name: </p>
+        <div class="asset-row">
+          ${nameElement}
+        </div
       </div>
     `;
 

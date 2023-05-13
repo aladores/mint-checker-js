@@ -246,6 +246,10 @@ select:-webkit-autofill:focus {
   width: 125px;
 }
 
+.asset-name-row {
+  display: flex;
+  flex-direction: column;
+}
 .hidden {
   display: none;
 }
