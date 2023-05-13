@@ -148,7 +148,12 @@ function updateAddressSection(address, transactions) {
   newDiv.innerHTML = `
     <div class="address-row">
       <p class="address-label">Address: </p>
-      <p>${address}</p>
+      <p>
+        <a href = "https://cardanoscan.io/address/${address}" 
+          target="_blank" class="cardanoScan-link">
+        ${address}
+        </a>
+      </p>
     </div>
     <div class="address-row">
       <p class="address-label">Total Transactions:  </p>
@@ -176,7 +181,12 @@ function updateTransactionSection(transactions) {
     newDiv.innerHTML = `
       <div class="transaction-row">
         <p class="transaction-label">Transaction id: </p>
-        <p>${transactions[i].hash} </p>
+        <p>
+          <a href = "https://cardanoscan.io/transaction/${transactions[i].hash}" 
+            target="_blank" class="cardanoScan-link">
+            ${transactions[i].hash}
+          </a>
+        </p>
       </div>
       <div class="transaction-row">
       <p  class="transaction-label"> Received time: </p>

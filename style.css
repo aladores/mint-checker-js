@@ -21,7 +21,8 @@ body {
   padding: 0px;
 }
 
-p {
+p,
+a {
   word-break: break-all;
   white-space: normal;
 }
@@ -100,6 +101,12 @@ body {
 /***************Address***************/
 .address-body {
   background-color: var(--darkest-blue);
+}
+
+.cardanoScan-link,
+.cardanoScan-link:visited {
+  text-decoration: none;
+  color: var(--lightest-blue);
 }
 
 .address-header {
