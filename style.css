@@ -10,7 +10,7 @@
   --light-grey: rgb(172, 170, 170);
   --medium-blue: #1d2e4a;
   --light-blue: #203354;
-  --lightest-blue: #305596;
+  --lightest-blue: #4b6eac;
 }
 
 h1,
@@ -81,7 +81,6 @@ body {
   background-color: var(--darkest-blue);
   padding-left: 25px;
   padding-right: 25px;
-
 }
 
 /* Change Autocomplete styles in Chrome*/
@@ -202,7 +201,6 @@ select:-webkit-autofill:focus {
   background-color: var(--medium-grey);
   margin-top: 20px;
   padding: 30px;
-
 }
 
 .address {
@@ -266,7 +264,6 @@ select:-webkit-autofill:focus {
 }
 
 @media (max-width: 740px) {
-
   .address-header-row,
   .address-container,
   .address-form-container,

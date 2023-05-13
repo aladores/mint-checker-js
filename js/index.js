@@ -27,7 +27,6 @@ function loadAddress() {
 }
 
 async function updateDom(address) {
-  //updateAddress(address);
 
   // //1. Get all transactions
   const transactions = await getAllTransactions(address);
@@ -40,27 +39,27 @@ async function updateDom(address) {
   //const mintTransactions = await getAllMintTransactions(testTx);
   const mintTransactions = await getAllMintTransactions(transactions);
   if (mintTransactions.length === 0) {
-    //TO DO
     updateError("No mint transactions found in this address:", address);
     return;
   }
+  console.log(mintTransactions);
 
   //3. Find and replace output amount
   //const mintTxWithName = MINT_TX_TEST;
   const mintTxWithName = await getSpecificAsset(mintTransactions);
-  updateAddressSection(address, mintTxWithName);//Replace with mintTransactions
+  updateAddressSection(address, transactions, mintTxWithName);//Replace with mintTransactions
 
   //4. Format transactions 
   const formattedTransactions = formatTransactions(mintTxWithName);
   console.log(formattedTransactions);
 
-  setTimeout(() => {
-    updateTransactionSection(formattedTransactions);
-  }, 5000);
+  //setTimeout(() => {
+  updateTransactionSection(formattedTransactions);
+  //}, 5000);
 }
 
 async function getAllTransactions(address) {
-  const jsonData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/addresses/${address}/transactions`, ALL_TRANSACTION_STRING);
+  const jsonData = await fetchPaginatedData(`https://cardano-mainnet.blockfrost.io/api/v0/addresses/${address}/transactions`, ALL_TRANSACTION_STRING);
   const transactions = [];
 
   for (let i = 0; i < jsonData.length; i++) {
@@ -85,18 +84,19 @@ async function getSpecificAsset(mintTransactions) {
   for (let i = 0; i < mintTransactions.length; i++) {
     const param = mintTransactions[i].output_amount[1].unit;
     const jsonData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/assets/${param}`, ASSET_STRING);
-
     console.log(jsonData);
     //For on chain metadata 
     if (jsonData.onchain_metadata !== null) {
       if (jsonData.onchain_metadata.hasOwnProperty("asset_ID")) {
         assetName = jsonData.onchain_metadata["asset ID"];
       }
+      else if (jsonData.onchain_metadata.hasOwnProperty("Name")) {
+        assetName = jsonData.onchain_metadata["Name"];
+      }
       else {
         assetName = jsonData.onchain_metadata["name"];
       }
     }
-
     //Add asset name to mint transaction
     mintTransactions[i].output_amount[1].name = assetName;
   }
@@ -104,7 +104,6 @@ async function getSpecificAsset(mintTransactions) {
 }
 
 function formatTransactions(transactions) {
-
   const formattedTransactions = [];
   for (let i = 0; i < transactions.length; i++) {
 
@@ -132,7 +131,19 @@ async function fetchData(url, wantedData) {
   return jsonData;
 }
 
-function updateAddressSection(address, transactions) {
+async function fetchPaginatedData(url, wantedData) {
+  let currentPage = 1;
+  let allTransactions = [];
+  let pageData = await fetchData(url + `?page=${currentPage}`, wantedData);
+  while (pageData.length > 0) {
+    allTransactions = allTransactions.concat(pageData);
+    currentPage++;
+    pageData = await fetchData(url + `?page=${currentPage}`, wantedData);
+  }
+  return allTransactions;
+}
+
+function updateAddressSection(address, transactions, mintTransactions) {
   const addressSection = document.getElementById("address-section");
   addressSection.classList.remove("hidden");
   const addressHeader = document.createElement("h2");
@@ -154,11 +165,11 @@ function updateAddressSection(address, transactions) {
     </div>
     <div class="address-row">
       <p class="address-label">Total Transactions:  </p>
-      <p>10 </p>
+      <p>${transactions.length}</p>
     </div>
     <div class="address-row">
       <p class="address-label">Mint Transactions:  </p>
-      <p>${transactions.length} </p>
+      <p>${mintTransactions.length} </p>
     </div>
   `;
   addressSection.appendChild(newDiv);
