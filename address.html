@@ -15,8 +15,14 @@
 <body class="address-body">
   <header class="address-header">
     <div class="address-header-row">
-      <img src="images/cardano-logo.png" alt="cardano-logo" class="cardano-logo-small">
-      <h1 class="address-header-text">Cardano Mint Checker</h1>
+      <div class="address-header-left">
+        <a href="index.html" class="home-link">
+          <img src="images/cardano-logo.png" alt="cardano-logo" class="cardano-logo-small">
+          <h1 class="address-header-text">Cardano Mint Checker</h1>
+        </a>
+      </div>
+      <div class="address-header-right">
+      </div>
     </div>
     <form class="address-form-container">
       <div class="search-row">
@@ -29,9 +35,10 @@
 
   <main class="address-main-container">
     <div class="address-container">
-      <section id="address-section" class="address-section">
+      <section id="error-section" class="error-section hidden"></section>
+      <section id="address-section" class="address-section hidden">
       </section>
-      <section id="transactions-section" class="transactions-section">
+      <section id="transactions-section" class="transactions-section hidden">
       </section>
     </div>
   </main>

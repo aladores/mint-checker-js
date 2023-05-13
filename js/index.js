@@ -11,7 +11,7 @@ function handleSubmit() {
   //addr1q9ezzague67wzye6lpwvqs8swcr8y4xt87dml4zep99n4ffprcxk4qu56t4u8zhgtsry2l9ual69q9hygznf93v0vyfsh2gq2p
   //addr1qydp5tjzex2xa87p8kz9hvm7e7mqj8wul28ylggvvrjf7n5sgq4a3gmwkf5ugalw6hgr8uvv4fk24mnl87hfcsx3pzjs3xkc73
   if (!searchBarValue.startsWith("addr")) {
-    console.log("Error: Address must begin with addr");
+    console.log("Address must begin with addr");
     return;
   }
   window.location = "address.html?" + `addr=${searchBarValue}`;
@@ -30,36 +30,33 @@ async function updateDom(address) {
   //updateAddress(address);
 
   // //1. Get all transactions
-  // const transactions = await getAllTransactions(address);
-  // if (transactions.length === 0) {
-  //   //TO DO
-  //   console.log("No transactions found in this address.");
-  //   return;
-  // }
+  const transactions = await getAllTransactions(address);
+  if (transactions.length === 0) {
+    updateError("No transactions found in this address:", address);
+    return;
+  }
 
-  // //2. Find if any of those transactions are minted
-  // //const testTx = ["88f5251bac8923cb70ae4826b2b491493ccf564fbb2f1384427fca68133f6786"];
-  // //const mintTransactions = await getAllMintTransactions(testTx);
-  // const mintTransactions = await getAllMintTransactions(transactions);
-  // console.log(mintTransactions);
-
-  // if (mintTransactions.length === 0) {
-  //   //TO DO
-  //   console.log("No mint transactions found in this address.");
-  //   return;
-  // }
+  //2. Find if any of those transactions are minted
+  //const mintTransactions = await getAllMintTransactions(testTx);
+  const mintTransactions = await getAllMintTransactions(transactions);
+  if (mintTransactions.length === 0) {
+    //TO DO
+    updateError("No mint transactions found in this address:", address);
+    return;
+  }
 
   //3. Find and replace output amount
-  const mintTxWithName = MINT_TX_TEST;
-  //const mintTxWithName = await getSpecificAsset(mintTransactions);
-
+  //const mintTxWithName = MINT_TX_TEST;
+  const mintTxWithName = await getSpecificAsset(mintTransactions);
   updateAddressSection(address, mintTxWithName);//Replace with mintTransactions
 
   //4. Format transactions 
   const formattedTransactions = formatTransactions(mintTxWithName);
   console.log(formattedTransactions);
-  updateTransactionSection(formattedTransactions);
 
+  setTimeout(() => {
+    updateTransactionSection(formattedTransactions);
+  }, 5000);
 }
 
 async function getAllTransactions(address) {
@@ -137,6 +134,7 @@ async function fetchData(url, wantedData) {
 
 function updateAddressSection(address, transactions) {
   const addressSection = document.getElementById("address-section");
+  addressSection.classList.remove("hidden");
   const addressHeader = document.createElement("h2");
   addressHeader.innerText = "Address";
   addressHeader.classList.add("subheader-text");
@@ -147,8 +145,7 @@ function updateAddressSection(address, transactions) {
 
   newDiv.innerHTML = `
     <div class="address-row">
-      <p class="address-label">Address: </p>
-      <p>
+      <p class="address-text">
         <a href = "https://cardanoscan.io/address/${address}" 
           target="_blank" class="cardanoScan-link">
         ${address}
@@ -169,8 +166,9 @@ function updateAddressSection(address, transactions) {
 
 function updateTransactionSection(transactions) {
   const transactionsSection = document.getElementById("transactions-section");
+  transactionsSection.classList.remove("hidden");
   const transactionHeader = document.createElement("h2");
-  transactionHeader.innerText = "Transactions";
+  transactionHeader.innerText = "Mint Transactions";
   transactionHeader.classList.add("subheader-text");
   transactionsSection.appendChild(transactionHeader);
 
@@ -200,6 +198,26 @@ function updateTransactionSection(transactions) {
 
     transactionsSection.appendChild(newDiv);
   }
+}
+function updateError(error, address) {
+  console.log(error);
+  const errorSection = document.getElementById("error-section");
+  errorSection.classList.remove("hidden");
+  const errorHeader = document.createElement("h2");
+  errorHeader.innerText = "Error";
+  errorHeader.classList.add("subheader-text");
+  errorHeader.classList.add("error");
+
+  const errorText = document.createElement("p");
+  errorText.innerText = error;
+  errorText.classList.add("error-text");
+  const addressText = document.createElement("p");
+  addressText.innerText = address;
+  addressText.classList.add("error-address-text");
+
+  errorSection.appendChild(errorHeader);
+  errorSection.appendChild(errorText);
+  errorSection.appendChild(addressText);
 }
 
 function addSearchEventListener() {

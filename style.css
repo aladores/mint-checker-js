@@ -7,7 +7,7 @@
 
   --darkest-blue: #1a1c2b;
   --dark-blue: #222433;
-
+  --light-grey: rgb(172, 170, 170);
   --medium-blue: #1d2e4a;
   --light-blue: #203354;
   --lightest-blue: #305596;
@@ -45,7 +45,7 @@ body {
 .title-row {
   display: flex;
   align-items: center;
-  padding-bottom: 25px;
+  padding-top: 50px;
 }
 
 .cardano-logo-big {
@@ -64,13 +64,12 @@ body {
   background-color: var(--medium-grey);
 }
 
-.form-container,
-.address-form-container {
+.form-container {
   width: 100%;
 }
 
 .form-container {
-  margin-top: 50px;
+  margin-top: 30px;
 }
 
 .search-bar {
@@ -81,9 +80,28 @@ body {
   width: 100%;
   background-color: var(--darkest-blue);
   padding-left: 25px;
+  padding-right: 25px;
+
+}
+
+/* Change Autocomplete styles in Chrome*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: none;
+  -webkit-text-fill-color: var(--light-grey);
+  -webkit-box-shadow: 0 0 0px 1000px var(--darkest-blue) inset;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .search-row {
+  color: White;
   background-color: black;
   display: flex;
 }
@@ -99,8 +117,19 @@ body {
 }
 
 /***************Address***************/
+
 .address-body {
   background-color: var(--darkest-blue);
+}
+
+.address-row:first-child {
+  display: block;
+}
+
+.home-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
 }
 
 .cardanoScan-link,
@@ -121,7 +150,7 @@ body {
 
 .address-header-row {
   display: flex;
-  align-items: center;
+  justify-content: space-between;
   width: 80%;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -146,6 +175,7 @@ body {
   width: 100%;
   background-color: var(--darkest-blue);
   padding-left: 25px;
+  padding-right: 25px;
 }
 
 .address-form-container {
@@ -167,6 +197,7 @@ body {
 }
 
 .address-section,
+.error-section,
 .transactions-section {
   background-color: var(--medium-grey);
   margin-top: 20px;
@@ -185,11 +216,15 @@ body {
   width: 80%;
 }
 
-.address-label {
-  width: 150px;
+.address-text {
+  font-size: 0.9rem;
+  font-weight: bold;
 }
 
-.subheader-text {}
+.address-label {
+  word-break: normal;
+  width: 150px;
+}
 
 .transactions-section {
   margin-bottom: 20px;
@@ -209,6 +244,37 @@ body {
 }
 
 .transaction-label {
-
+  flex-shrink: 0;
   width: 125px;
+}
+
+.hidden {
+  display: none;
+}
+
+.error {
+  color: rgb(255, 26, 26);
+}
+
+.error-text {
+  font-size: 0.9rem;
+}
+
+.error-address-text {
+  font-size: 0.9rem;
+  color: var(--light-grey);
+}
+
+@media (max-width: 740px) {
+
+  .address-header-row,
+  .address-container,
+  .address-form-container,
+  .main-container {
+    width: 90%;
+  }
+
+  .transaction-row:first-child {
+    display: block;
+  }
 }
