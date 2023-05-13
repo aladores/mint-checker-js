@@ -146,12 +146,20 @@ function updateAddressSection(address, transactions) {
   newDiv.classList.add("address");
 
   newDiv.innerHTML = `
-    <p>${address}</p>
-    <p>Mint Transactions: ${transactions.length}</p>
+    <div class="address-row">
+      <p class="address-label">Address: </p>
+      <p>${address}</p>
+    </div>
+    <div class="address-row">
+      <p class="address-label">Total Transactions:  </p>
+      <p>10 </p>
+    </div>
+    <div class="address-row">
+      <p class="address-label">Mint Transactions:  </p>
+      <p>${transactions.length} </p>
+    </div>
   `;
-
   addressSection.appendChild(newDiv);
-
 }
 
 function updateTransactionSection(transactions) {
@@ -166,9 +174,18 @@ function updateTransactionSection(transactions) {
     newDiv.classList.add("transaction");
 
     newDiv.innerHTML = `
-      <p>Transaction id: ${transactions[i].hash}</p>
-      <p>Received time: ${transactions[i].block_time}</p>
-      <p>Asset name: ${transactions[i].name}</p>
+      <div class="transaction-row">
+        <p class="transaction-label">Transaction id: </p>
+        <p>${transactions[i].hash} </p>
+      </div>
+      <div class="transaction-row">
+      <p  class="transaction-label"> Received time: </p>
+      <p> ${transactions[i].block_time}</p>
+      </div>
+      <div class="transaction-row">
+      <p  class="transaction-label"> Asset name: </p>
+      <p> ${transactions[i].name}</p>
+      </div>
     `;
 
     transactionsSection.appendChild(newDiv);
