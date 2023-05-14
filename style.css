@@ -81,9 +81,21 @@ body {
   width: 100%;
   background-color: var(--darkest-blue);
   padding-left: 25px;
-  padding-right: 25px;
 }
 
+.search-bar-button,
+.address-search-bar-button {
+  display: flex;
+  align-items: center;
+  padding-left: 5px;
+  padding-right: 10px;
+  border: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: white;
+  background-color: var(--darkest-blue);
+  cursor: pointer;
+}
 /* Change Autocomplete styles in Chrome*/
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -198,6 +210,10 @@ select:-webkit-autofill:focus {
   padding-right: 25px;
 }
 
+.address-search-bar-button {
+  font-size: 0.8rem;
+}
+
 .address-form-container {
   width: 50%;
 }
@@ -304,6 +320,16 @@ select:-webkit-autofill:focus {
   .address-form-container,
   .main-container {
     width: 90%;
+  }
+
+  .cardano-logo-big {
+    height: 60px;
+    width: 60px;
+  }
+
+  .title-text {
+    padding-left: 15px;
+    font-size: 1.4rem;
   }
 
   .transaction-row:first-child {

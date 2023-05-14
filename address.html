@@ -24,9 +24,10 @@
       <div class="address-header-right">
       </div>
     </div>
-    <form class="address-form-container">
+    <form id="search-form" class="address-form-container">
       <div class="search-row">
         <input type="text" id="search-bar" class="address-search-bar" placeholder="Search by address" value="">
+        <button id="search-bar-delete" class="address-search-bar-button hidden" type="button">x</button>
         <button type="submit" class="address-submit-button">Submit →</button>
       </div>
     </form>
@@ -34,7 +35,6 @@
 
   <main class="address-main-container">
     <div class="address-container">
-
       <section id="error-section" class="error-section hidden"></section>
       <section id="address-section" class="address-section hidden">
       </section>

@@ -31,21 +31,21 @@ async function updateDom(address) {
 
   toggleAddressLoader();
   //1. Get all transactions
-  const transactions = await getAllTransactions(address);
-  if (transactions.length === 0) {
-    updateError("No transactions found in this address:", address);
-    return;
-  }
+  // const transactions = await getAllTransactions(address);
+  // if (transactions.length === 0) {
+  //   updateError("No transactions found in this address:", address);
+  //   return;
+  // }
 
-  //2. Find if any of those transactions are minted
-  const mintTransactions = await getAllMintTransactions(transactions);
-  if (mintTransactions.length === 0) {
-    updateError("No mint transactions found in this address:", address);
-    return;
-  }
+  // //2. Find if any of those transactions are minted
+  // const mintTransactions = await getAllMintTransactions(transactions);
+  // if (mintTransactions.length === 0) {
+  //   updateError("No mint transactions found in this address:", address);
+  //   return;
+  // }
 
-  //3. Find and replace output amount
-  const mintTxWithName = await getSpecificAsset(mintTransactions);
+  // //3. Find and replace output amount
+  // const mintTxWithName = await getSpecificAsset(mintTransactions);
   updateAddressSection(address, LARGE_TX_TEST, LARGE_MINT_TX_TEST);
 
   //4. Format transactions 
@@ -269,12 +269,28 @@ function toggleAddressLoader() {
   loader.classList.contains("hidden") ? loader.classList.remove("hidden") : loader.classList.add("hidden");
 }
 
+function handleInputChange(event, searchBarButton) {
+  event.target.value ? searchBarButton.classList.remove("hidden") : searchBarButton.classList.add("hidden");
+}
+
 function addSearchEventListener() {
-  const form = document.querySelector('form');
+  const form = document.getElementById('search-form');
+  const searchBar = document.getElementById('search-bar');
+  const searchBarButton = document.getElementById("search-bar-delete");
+
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     handleSubmit();
   });
+
+  searchBar.addEventListener('input', () => {
+    handleInputChange(event, searchBarButton);
+  });
+
+  searchBarButton.addEventListener('click', function (event) {
+    console.log(searchBar.value);
+    searchBar.value = "";
+  })
 }
 
 addSearchEventListener();
