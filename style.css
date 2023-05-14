@@ -114,7 +114,6 @@ select:-webkit-autofill:focus {
 
 .search-row {
   color: White;
-  background-color: black;
   display: flex;
 }
 
@@ -129,31 +128,17 @@ select:-webkit-autofill:focus {
 }
 
 /***************Address***************/
-
+/*Containers*/
+.address-header-container,
+.address-main-container,
+.address-form-container {
+  width: 50%;
+}
 .address-body {
   background-color: var(--darkest-blue);
 }
 
-.loader {
-  display: flex;
-  align-items: center;
-  margin-top: 50px;
-  border: 7px solid var(--darkest-blue);
-  border-top: 7px solid var(--lightest-blue);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1.5s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+/*Address header*/
 .address-row:first-child {
   display: block;
 }
@@ -175,15 +160,13 @@ select:-webkit-autofill:focus {
   flex-direction: column;
   align-items: center;
   background-color: var(--medium-grey);
-
   width: 100%;
   padding-bottom: 30px;
 }
 
-.address-header-row {
+.address-header-container {
   display: flex;
   justify-content: space-between;
-  width: 50%;
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -214,42 +197,53 @@ select:-webkit-autofill:focus {
   font-size: 0.8rem;
 }
 
-.address-form-container {
-  width: 50%;
-}
-
 .address-submit-button {
   font-size: 0.8rem;
   width: 100px;
 }
 
+/*Address main container*/
 .address-main-container {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
   color: white;
   background-color: var(--darkest-blue);
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  margin-top: 50px;
+  border: 7px solid var(--darkest-blue);
+  border-top: 7px solid var(--lightest-blue);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .address-section,
 .error-section,
 .transactions-section {
+  width: 100%;
   background-color: var(--medium-grey);
   margin-top: 20px;
+}
+
+.address-container,
+.error-container,
+.transactions-container {
   padding: 30px;
-}
-
-.address {
-  padding-top: 10px;
-  font-size: 0.9rem;
-}
-
-.address-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 50%;
 }
 
 .address-text {
@@ -258,7 +252,6 @@ select:-webkit-autofill:focus {
 }
 
 .address-label {
-  word-break: normal;
   width: 150px;
 }
 
@@ -306,22 +299,24 @@ select:-webkit-autofill:focus {
 }
 
 @media (max-width: 1400px) {
-  .address-header-row,
-  .address-container,
-  .address-form-container,
+  /**Home page**/
   .main-container {
+    width: 80%;
+  }
+  /**Address page**/
+  .address-header-container,
+  .address-form-container,
+  .address-main-container {
     width: 70%;
   }
 }
 
 @media (max-width: 740px) {
-  .address-header-row,
-  .address-container,
-  .address-form-container,
+  /**Home page**/
+
   .main-container {
     width: 90%;
   }
-
   .cardano-logo-big {
     height: 60px;
     width: 60px;
@@ -330,6 +325,26 @@ select:-webkit-autofill:focus {
   .title-text {
     padding-left: 15px;
     font-size: 1.4rem;
+  }
+
+  .search-bar {
+    font-size: 0.8rem;
+    height: 50px;
+    padding-left: 15px;
+  }
+
+  .submit-button {
+    font-size: 0.8rem;
+  }
+
+  .search-bar-button {
+    font-size: 1rem;
+  }
+  /**Address page**/
+  .address-header-container,
+  .address-form-container,
+  .address-main-container {
+    width: 90%;
   }
 
   .transaction-row:first-child {

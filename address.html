@@ -14,7 +14,7 @@
 
 <body class="address-body">
   <header class="address-header">
-    <div class="address-header-row">
+    <div class="address-header-container">
       <div class="address-header-left">
         <a href="index.html" class="home-link">
           <img src="images/cardano-logo.png" alt="cardano-logo" class="cardano-logo-small">
@@ -34,17 +34,17 @@
   </header>
 
   <main class="address-main-container">
-    <div class="address-container">
-      <section id="error-section" class="error-section hidden"></section>
-      <section id="address-section" class="address-section hidden">
-      </section>
-      <section id="transactions-section" class="transactions-section hidden">
-      </section>
-      <div id="loader" class="loader hidden"></div>
-    </div>
-
+    <section id="error-section" class="error-section hidden">
+      <div id="error-container" class="error-container"></div>
+    </section>
+    <section id="address-section" class="address-section hidden">
+      <div id="address-container" class="address-container"></div>
+    </section>
+    <section id="transactions-section" class="transactions-section hidden">
+      <div id="transactions-container" class="transactions-container"></div>
+    </section>
+    <div id="loader" class="loader hidden"></div>
   </main>
-
   <script type="module" src="js/index.js"></script>
 </body>
 

@@ -46,14 +46,16 @@ async function updateDom(address) {
 
   // //3. Find and replace output amount
   // const mintTxWithName = await getSpecificAsset(mintTransactions);
-  updateAddressSection(address, LARGE_TX_TEST, LARGE_MINT_TX_TEST);
+  setTimeout(() => {
+    updateAddressSection(address, LARGE_TX_TEST, LARGE_MINT_TX_TEST);
+  }, 2000);
 
   //4. Format transactions 
   const formattedTransactions = formatTransactions(LARGE_MINT_TX_TEST);
 
   setTimeout(() => {
     updateTransactionSection(formattedTransactions);
-  }, 2000);
+  }, 4000);
 }
 
 async function getAllTransactions(address) {
@@ -166,11 +168,12 @@ async function fetchPaginatedData(url, wantedData) {
 function updateAddressSection(address, transactions, mintTransactions) {
   //Stop svg
   const addressSection = document.getElementById("address-section");
+  const addressContainer = document.getElementById("address-container");
   addressSection.classList.remove("hidden");
   const addressHeader = document.createElement("h2");
   addressHeader.innerText = "Address";
   addressHeader.classList.add("subheader-text");
-  addressSection.appendChild(addressHeader);
+  addressContainer.appendChild(addressHeader);
 
   const newDiv = document.createElement("div");
   newDiv.classList.add("address");
@@ -193,17 +196,19 @@ function updateAddressSection(address, transactions, mintTransactions) {
       <p>${mintTransactions.length} </p>
     </div>
   `;
-  addressSection.appendChild(newDiv);
+  addressContainer.appendChild(newDiv);
 }
 
 function updateTransactionSection(transactions) {
   toggleAddressLoader();
   const transactionsSection = document.getElementById("transactions-section");
   transactionsSection.classList.remove("hidden");
+  const transactionsContainer = document.getElementById("transactions-container");
+  transactionsSection.classList.remove("hidden");
   const transactionHeader = document.createElement("h2");
   transactionHeader.innerText = "Mint Transactions";
   transactionHeader.classList.add("subheader-text");
-  transactionsSection.appendChild(transactionHeader);
+  transactionsContainer.appendChild(transactionHeader);
 
   for (let i = 0; i < transactions.length; i++) {
     const newDiv = document.createElement("div");
@@ -239,7 +244,7 @@ function updateTransactionSection(transactions) {
       </div>
     `;
 
-    transactionsSection.appendChild(newDiv);
+    transactionsContainer.appendChild(newDiv);
   }
 }
 function updateError(error, address) {
@@ -283,7 +288,7 @@ function addSearchEventListener() {
     handleSubmit();
   });
 
-  searchBar.addEventListener('input', () => {
+  searchBar.addEventListener('input', (event) => {
     handleInputChange(event, searchBarButton);
   });
 
