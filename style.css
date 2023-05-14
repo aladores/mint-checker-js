@@ -44,8 +44,15 @@ body {
 
 .title-row {
   display: flex;
+  flex-shrink: 0;
   align-items: center;
-  padding-top: 100px;
+  margin-top: 100px;
+}
+
+.title-link {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
   text-decoration: none;
 }
 

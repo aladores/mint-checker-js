@@ -5,6 +5,7 @@ import { LARGE_TX_TEST, LARGE_MINT_TX_TEST } from './tests/largeTest.js';
 const ALL_TRANSACTION_STRING = "ALL TRANSACTIONS"
 const MINT_STRING = "MINT TRANSACTIONS"
 const ASSET_STRING = "SPECIFIC ASSET"
+const UXTO_STRING = "UXTO"
 function handleSubmit() {
   const searchBar = document.getElementById("search-bar");
   const searchBarValue = searchBar.value;
@@ -31,27 +32,27 @@ async function updateDom(address) {
 
   toggleAddressLoader();
   //1. Get all transactions
-  // const transactions = await getAllTransactions(address);
-  // if (transactions.length === 0) {
-  //   updateError("No transactions found in this address:", address);
-  //   return;
-  // }
+  const transactions = await getAllTransactions(address);
+  if (transactions.length === 0) {
+    updateError("No transactions found in this address:", address);
+    return;
+  }
 
-  // //2. Find if any of those transactions are minted
-  // const mintTransactions = await getAllMintTransactions(transactions);
-  // if (mintTransactions.length === 0) {
-  //   updateError("No mint transactions found in this address:", address);
-  //   return;
-  // }
+  //2. Find if any of those transactions are minted
+  const mintTransactions = await getAllMintTransactions(transactions);
+  if (mintTransactions.length === 0) {
+    updateError("No mint transactions found in this address:", address);
+    return;
+  }
 
-  // //3. Find and replace output amount
-  // const mintTxWithName = await getSpecificAsset(mintTransactions);
+  //3. Find and replace output amount
+  const mintTxWithName = await getSpecificAsset(mintTransactions, address);
+  //console.log(mintTxWithName);
   setTimeout(() => {
-    updateAddressSection(address, LARGE_TX_TEST, LARGE_MINT_TX_TEST);
+    updateAddressSection(address, transactions, mintTxWithName);
   }, 2000);
-
   //4. Format transactions 
-  const formattedTransactions = formatTransactions(LARGE_MINT_TX_TEST);
+  const formattedTransactions = formatTransactions(mintTxWithName);
 
   setTimeout(() => {
     updateTransactionSection(formattedTransactions);
@@ -79,14 +80,20 @@ async function getAllMintTransactions(transactions) {
   }
   return mintTransactions;
 }
-async function getSpecificAsset(mintTransactions) {
+async function getSpecificAsset(mintTransactions, address) {
   let assetName = "";
   let param = "";
   for (let i = 0; i < mintTransactions.length; i++) {
-    const outputAmountSize = mintTransactions[i].output_amount.length;
-    //TO DO: asset_mint_or_burn_count > 5 
-    //likely chance uxto mint have to find a way to fix that
-    for (let j = 1; j < outputAmountSize; j++) {
+    //UXTO Mint
+    if (mintTransactions[i].asset_mint_or_burn_count > 5 || mintTransactions[i].output_amount.length > 2) {
+      const uxtoData = await getUxtoData(mintTransactions[i], address);
+      const newArray = mintTransactions[i].output_amount.filter((item) => {
+        return uxtoData.includes(item.unit);
+      })
+      mintTransactions[i].output_amount = newArray;
+    }
+
+    for (let j = 1; j < mintTransactions[i].output_amount.length; j++) {
       param = mintTransactions[i].output_amount[j].unit;
       const jsonData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/assets/${param}`, ASSET_STRING);
       //Change to switch statement?
@@ -121,6 +128,23 @@ async function getSpecificAsset(mintTransactions) {
   return mintTransactions;
 }
 
+async function getUxtoData(mintTransaction, address) {
+  const sentUnits = [];
+
+  const uxtoData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/txs/${mintTransaction.hash}/utxos`, UXTO_STRING);
+  const sentData = uxtoData.outputs.filter((item) => {
+    return item.address === address;
+  });
+
+  for (let i = 0; i < sentData[0].amount.length; i++) {
+    //const assetData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/txs/${mintTransaction.hash}/utxos`, UXTO_STRING);
+    sentUnits.push(sentData[0].amount[i].unit);
+  };
+
+
+  return sentUnits;
+}
+
 function formatTransactions(transactions) {
   const formattedTransactions = [];
 
@@ -131,7 +155,6 @@ function formatTransactions(transactions) {
       //console.log(transactions[i].output_amount[j].name);
       names.push(transactions[i].output_amount[j].name);
     }
-    console.log(names);
     const formattedDate = new Date(block_time * 1000);
     formattedTransactions.push({
       block_time: formattedDate.toLocaleString(),
@@ -215,7 +238,6 @@ function updateTransactionSection(transactions) {
     newDiv.classList.add("transaction");
 
     let nameElement = '';
-    console.log(transactions[i].name);
     for (let j = 0; j < transactions[i].name.length; j++) {
       nameElement += `
           <p>${transactions[i].name[j]}</p>
@@ -293,6 +315,7 @@ function addSearchEventListener() {
   });
 
   searchBarButton.addEventListener('click', function (event) {
+    handleInputChange(event, searchBarButton);
     console.log(searchBar.value);
     searchBar.value = "";
   })
