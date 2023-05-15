@@ -2,15 +2,11 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
   --black: black;
-  --dark-grey: #17181c;
-  --medium-grey: #222433;
-
-  --darkest-blue: #1a1c2b;
-  --dark-blue: #222433;
+  --dark-blue: #1a1c2b;
+  --medium-blue: #222433;
+  --light-blue-grey: #596488;
+  --lightest-blue: #427bdf;
   --light-grey: rgb(172, 170, 170);
-  --medium-blue: #1d2e4a;
-  --light-blue: #203354;
-  --lightest-blue: #4b6eac;
 }
 
 h1,
@@ -32,7 +28,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--medium-grey);
+  background-color: var(--medium-blue);
 }
 
 .header-container {
@@ -70,7 +66,7 @@ body {
 
 .main-container {
   width: 50%;
-  background-color: var(--medium-grey);
+  background-color: var(--medium-blue);
 }
 
 .form-container {
@@ -87,7 +83,7 @@ body {
   height: 70px;
   color: rgb(172, 170, 170);
   width: 100%;
-  background-color: var(--darkest-blue);
+  background-color: var(--dark-blue);
   padding-left: 25px;
 }
 
@@ -108,7 +104,6 @@ body {
   100% {
     opacity: 0;
   }
-
 }
 
 .error-modal-address {
@@ -123,7 +118,6 @@ body {
   color: black;
 }
 
-
 .search-bar-button,
 .address-search-bar-button {
   display: flex;
@@ -134,7 +128,7 @@ body {
   font-weight: bold;
   font-size: 1.2rem;
   color: white;
-  background-color: var(--darkest-blue);
+  background-color: var(--dark-blue);
   cursor: pointer;
 }
 
@@ -150,7 +144,7 @@ select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   border: none;
   -webkit-text-fill-color: var(--light-grey);
-  -webkit-box-shadow: 0 0 0px 1000px var(--darkest-blue) inset;
+  -webkit-box-shadow: 0 0 0px 1000px var(--dark-blue) inset;
   transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -178,7 +172,7 @@ select:-webkit-autofill:focus {
 }
 
 .address-body {
-  background-color: var(--darkest-blue);
+  background-color: var(--dark-blue);
 }
 
 /*Address header*/
@@ -202,7 +196,7 @@ select:-webkit-autofill:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--medium-grey);
+  background-color: var(--medium-blue);
   width: 100%;
   padding-bottom: 30px;
 }
@@ -231,7 +225,7 @@ select:-webkit-autofill:focus {
   height: 40px;
   color: rgb(172, 170, 170);
   width: 100%;
-  background-color: var(--darkest-blue);
+  background-color: var(--dark-blue);
   padding-left: 25px;
   padding-right: 25px;
 }
@@ -251,14 +245,14 @@ select:-webkit-autofill:focus {
   flex-direction: column;
   align-items: center;
   color: white;
-  background-color: var(--darkest-blue);
+  background-color: var(--dark-blue);
 }
 
 .loader {
   display: flex;
   align-items: center;
   margin-top: 50px;
-  border: 7px solid var(--darkest-blue);
+  border: 7px solid var(--dark-blue);
   border-top: 7px solid var(--lightest-blue);
   border-radius: 50%;
   width: 40px;
@@ -280,7 +274,7 @@ select:-webkit-autofill:focus {
 .error-section,
 .transactions-section {
   width: 100%;
-  background-color: var(--medium-grey);
+  background-color: var(--medium-blue);
   margin-top: 20px;
 }
 
@@ -316,6 +310,25 @@ select:-webkit-autofill:focus {
   padding-bottom: 5px;
 }
 
+.transactions-header-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.download-button {
+  font-size: 0.8rem;
+  padding: 5px 10px 5px 10px;
+  border: none;
+  color: white;
+  background-color: var(--lightest-blue);
+  cursor: pointer;
+}
+
+.down-arrow {
+  font-weight: bold;
+  font-size: 0.9rem;
+  padding-right: 5px;
+}
 .transaction-label {
   flex-shrink: 0;
   width: 110px;
@@ -343,20 +356,34 @@ select:-webkit-autofill:focus {
   color: var(--light-grey);
 }
 
-.pagination {
+.pagination-controls {
   display: flex;
-  justify-content: end;
+  justify-content: center;
+  align-items: center;
+
+  padding-top: 10px;
+  padding-bottom: 10px;
+  gap: 20px;
+  width: 100%;
+  font-size: 0.9rem;
 }
 
-.pagination-container {
-  display: flex;
-  gap: 10px;
-  padding: 5px;
-  background-color: var(--light-blue);
+.pagination-button {
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  border: none;
+  height: 25px;
+  width: 30px;
+  background-color: var(--dark-blue);
+  color: var(--lightest-blue);
 }
 
+.pagination-button:disabled {
+  cursor: default;
+  opacity: 40%;
+}
 @media (max-width: 1400px) {
-
   /**Home page**/
   .main-container {
     width: 80%;
@@ -412,10 +439,6 @@ select:-webkit-autofill:focus {
   .error-container,
   .transactions-container {
     padding: 20px;
-  }
-
-  .pagination-container {
-    justify-content: center;
   }
 
   .transaction-row:first-child {
