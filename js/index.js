@@ -100,29 +100,10 @@ async function getSpecificAsset(mintTransactions, address) {
     }
     for (let j = 1; j < mintTransactions[i].output_amount.length; j++) {
       param = mintTransactions[i].output_amount[j].unit;
-      const jsonData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/assets/${param}`, ASSET_STRING);
+      const jsonAsset = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/assets/${param}`, ASSET_STRING);
       //Change to switch statement?
-      if (jsonData.onchain_metadata !== null) {
-        if (jsonData.onchain_metadata.hasOwnProperty("asset_ID")) {
-          assetName = jsonData.onchain_metadata["asset ID"];
-        }
-        else if (jsonData.onchain_metadata.hasOwnProperty("name")) {
-          assetName = jsonData.onchain_metadata["name"];
-        }
-        else if (jsonData.onchain_metadata.hasOwnProperty("Name")) {
-          assetName = jsonData.onchain_metadata["Name"];
-        }
-
-        //TO DO: find more specific names if possible
-        else if (jsonData.onchain_metadata.hasOwnProperty("Project")) {
-          assetName = jsonData.onchain_metadata["Project"];
-        }
-        else if (jsonData.onchain_metadata.hasOwnProperty("Project Name")) {
-          assetName = jsonData.onchain_metadata["Project Name"];
-        }
-        else {
-          assetName = "No name found";
-        }
+      if (jsonAsset.onchain_metadata !== null) {
+        assetName = findName(jsonAsset.onchain_metadata);
       }
       //Add asset name to mint transaction
       mintTransactions[i].output_amount[j].name = assetName;
@@ -132,6 +113,23 @@ async function getSpecificAsset(mintTransactions, address) {
   return mintTransactions;
 }
 
+function findName(jsonAsset) {
+  switch (true) {
+    case jsonAsset.hasOwnProperty("asset_ID"):
+      return jsonAsset["asset ID"];
+    case jsonAsset.hasOwnProperty("name"):
+      return jsonAsset["name"];
+    case jsonAsset.hasOwnProperty("Name"):
+      return jsonAsset["Name"];
+    case jsonAsset.hasOwnProperty("Project"):
+      return jsonAsset["Project"];
+    case jsonAsset.hasOwnProperty("Project Name"):
+      return jsonAsset["Project Name"];
+    default:
+      return "No name found";
+  }
+
+}
 async function getUxtoData(mintTransaction, address) {
   const sentUnits = [];
 
