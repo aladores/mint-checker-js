@@ -15,6 +15,7 @@
 
 h1,
 h2,
+h3,
 p,
 body {
   margin: 0px;
@@ -89,6 +90,39 @@ body {
   background-color: var(--darkest-blue);
   padding-left: 25px;
 }
+
+.error-modal {
+  padding: 5px 10px 5px 10px;
+  background-color: white;
+  position: fixed;
+  z-index: 1;
+  top: 260px;
+  animation: fade 4s;
+}
+
+@keyframes fade {
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+
+}
+
+.error-modal-address {
+  top: 120px;
+}
+
+.error-modal-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: black;
+}
+
 
 .search-bar-button,
 .address-search-bar-button {

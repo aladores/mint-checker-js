@@ -13,7 +13,8 @@ function handleSubmit() {
   //Spam 1: addr1qxyezkc02lpz0y8l587lhckpcjsed0v7wrjayut9alc75xkqgcy2x7t7d58zyt2rydep075va5xluwuqsdpssk60m4fqgccl75
   //Spam 2: addr1qydp5tjzex2xa87p8kz9hvm7e7mqj8wul28ylggvvrjf7n5sgq4a3gmwkf5ugalw6hgr8uvv4fk24mnl87hfcsx3pzjs3xkc73
   if (!searchBarValue.startsWith("addr")) {
-    console.log("Address must begin with addr");
+    const location = window.location.href;
+    updateSearchError(location);
     return;
   }
   window.location = "address.html?" + `addr=${searchBarValue}`;
@@ -46,16 +47,16 @@ async function updateDom(address) {
   }
 
   //3. Find and replace output amount
-  const mintTxWithName = await getSpecificAsset(mintTransactions, address);
+  const mintTxWithName = await getSpecificAsset(transactions, address);
   setTimeout(() => {
-    updateAddressSection(address, transactions, mintTxWithName);
-  }, 0);
+    updateAddressSection(address, mintTransactions, mintTxWithName);
+  }, 2000);
 
   //4. Format transactions 
   const formattedTransactions = formatTransactions(mintTxWithName);
   setTimeout(() => {
     updateTransactionSection(formattedTransactions);
-  }, 2000);
+  }, 4000);
 }
 
 async function getAllTransactions(address) {
@@ -249,6 +250,7 @@ function updateTransactionSection(transactions) {
 function updateError(error, address) {
   toggleAddressLoader();
   console.log(error);
+  const errorContainer = document.getElementById("error-container");
   const errorSection = document.getElementById("error-section");
   const errorHeader = document.createElement("h2");
   errorHeader.classList.add("subheader-text");
@@ -263,15 +265,32 @@ function updateError(error, address) {
   errorText.innerText = error;
   addressText.innerText = address;
 
-  errorSection.appendChild(errorHeader);
-  errorSection.appendChild(errorText);
-  errorSection.appendChild(addressText);
+  errorContainer.appendChild(errorHeader);
+  errorContainer.appendChild(errorText);
+  errorContainer.appendChild(addressText);
+}
+
+function updateSearchError(location) {
+  console.log(location);
+  const errorModal = document.createElement("div");
+  errorModal.classList.add("error-modal")
+  location.includes("address.html") ? errorModal.classList.add("error-modal-address") : "";
+
+  errorModal.innerHTML =
+    `<p class="error-modal-text">
+    <span class="error">Error:&nbsp</span> Address must begin with "addr1"</p>`;
+  document.body.appendChild(errorModal);
+
+  setTimeout(() => {
+    errorModal.remove();
+  }, 4000);
 }
 
 function toggleAddressLoader() {
   const loader = document.getElementById("loader");
   loader.classList.contains("hidden") ? loader.classList.remove("hidden") : loader.classList.add("hidden");
 }
+
 
 function handleInputChange(event, searchBarButton) {
   event.target.value ? searchBarButton.classList.remove("hidden") : searchBarButton.classList.add("hidden");
@@ -303,7 +322,7 @@ async function fetchData(url, wantedData) {
   const response = await fetch(url, { headers: { 'project_id': `${API_KEY}` } })
   if (response.status != 200) {
     console.log(`Error fetching ${wantedData} transactions: `, response)
-    return;
+    return "";
   }
   const jsonData = await response.json();
   return jsonData;
