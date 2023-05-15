@@ -35,14 +35,51 @@ export function displayAddressSection(address, transactions, mintTransactions) {
 export function displayTransactionSection(transactions) {
     toggleAddressLoader();
     const transactionsSection = document.getElementById("transactions-section");
-    const transactionsContainer = document.getElementById("transactions-container");
-    const transactionHeader = document.createElement("h2");
+    const paginationContainer = document.getElementById("pagination-container");
     transactionsSection.classList.remove("hidden");
-    transactionHeader.classList.add("subheader-text");
-    transactionHeader.innerText = "Mint Transactions";
-    transactionsContainer.appendChild(transactionHeader);
 
-    for (let i = 0; i < transactions.length; i++) {
+    const limitPerPage = 5;
+    const pageLimit = Math.ceil(transactions.length / limitPerPage);
+    console.log(pageLimit);
+    let currentPage = 1;
+    let pageStart = 0;
+    let pageEnd = 5;
+
+    if (transactions.length > limitPerPage) {
+        const nextButton = transactionsSection.querySelector('#next-button');
+        const prevButton = transactionsSection.querySelector('#prev-button');
+
+        nextButton.addEventListener('click', () => {
+            if (currentPage === pageLimit) {
+                return;
+            }
+            pageStart += limitPerPage;
+            pageEnd += limitPerPage;
+            //TO DO functional ? 
+            currentPage++;
+            renderTransactions(transactions, paginationContainer, pageStart, pageEnd, currentPage, pageLimit);
+        });
+
+        prevButton.addEventListener('click', () => {
+            if (currentPage === 1) {
+                return;
+            }
+            pageStart -= limitPerPage;
+            pageEnd -= limitPerPage;
+            currentPage--;
+            renderTransactions(transactions, paginationContainer, pageStart, pageEnd, currentPage, pageLimit);
+        });
+    }
+
+    renderTransactions(transactions, paginationContainer, pageStart, pageEnd, currentPage, pageLimit);
+}
+
+function renderTransactions(transactions, paginationContainer, pageStart, pageEnd, currentPage, pageLimit) {
+    const label = document.getElementById("pagination-label");
+    label.innerHTML = `Page ${currentPage} of ${pageLimit}`;
+    paginationContainer.innerHTML = "";
+    for (let i = pageStart; i < pageEnd; i++) {
+
         const newDiv = document.createElement("div");
         newDiv.classList.add("transaction");
 
@@ -75,19 +112,18 @@ export function displayTransactionSection(transactions) {
         </div>
       `;
 
-        transactionsContainer.appendChild(newDiv);
+        paginationContainer.appendChild(newDiv);
+        if (transactions[i + 1] === undefined) {
+            break;
+        }
     }
 }
 export function displayError(error, address) {
     toggleAddressLoader();
     console.log(error);
+    errorSection.classList.remove("hidden");
     const errorContainer = document.getElementById("error-container");
     const errorSection = document.getElementById("error-section");
-    const errorHeader = document.createElement("h2");
-    errorHeader.classList.add("subheader-text");
-    errorHeader.classList.add("error");
-    errorSection.classList.remove("hidden");
-    errorHeader.innerText = "Error";
 
     const errorText = document.createElement("p");
     const addressText = document.createElement("p");
@@ -96,7 +132,6 @@ export function displayError(error, address) {
     errorText.innerText = error;
     addressText.innerText = address;
 
-    errorContainer.appendChild(errorHeader);
     errorContainer.appendChild(errorText);
     errorContainer.appendChild(addressText);
 }

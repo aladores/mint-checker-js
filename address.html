@@ -35,13 +35,25 @@
 
   <main class="address-main-container">
     <section id="error-section" class="error-section hidden">
-      <div id="error-container" class="error-container"></div>
+      <div id="error-container" class="error-container">
+        <h2 classList="subheader-text error">Error</h2>
+      </div>
     </section>
     <section id="address-section" class="address-section hidden">
       <div id="address-container" class="address-container"></div>
     </section>
     <section id="transactions-section" class="transactions-section hidden">
-      <div id="transactions-container" class="transactions-container"></div>
+      <div id="transactions-container" class="transactions-container">
+        <h2 id="transactions-header" class="subheader-text">Mint Transactions</h2>
+        <nav class="pagination">
+          <div class="pagination-container">
+            <button id="prev-button">Prev</button>
+            <div id="pagination-label">Page 1 of 1</div>
+            <button id="next-button">Next</button>
+          </div>
+        </nav>
+        <div id="pagination-container"></div>
+      </div>
     </section>
     <div id="loader" class="loader hidden"></div>
   </main>

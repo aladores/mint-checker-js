@@ -39,30 +39,30 @@ async function updateDom(address) {
 
   toggleAddressLoader();
   //1. Get all transactions
-  const transactions = await getAllTransactions(address);
-  if (transactions.length === 0) {
-    displayError("No transactions found in this address:", address);
-    return;
-  }
+  // const transactions = await getAllTransactions(address);
+  // if (transactions.length === 0) {
+  //   displayError("No transactions found in this address:", address);
+  //   return;
+  // }
 
-  //2. Find if any of those transactions are minted
-  const mintTransactions = await getAllMintTransactions(transactions);
-  if (mintTransactions.length === 0) {
-    displayError("No mint transactions found in this address:", address);
-    return;
-  }
+  // //2. Find if any of those transactions are minted
+  // const mintTransactions = await getAllMintTransactions(transactions);
+  // if (mintTransactions.length === 0) {
+  //   displayError("No mint transactions found in this address:", address);
+  //   return;
+  // }
 
-  //3. Find and replace output amount
-  const mintTxWithName = await getSpecificAsset(mintTransactions, address);
+  // //3. Find and replace output amount
+  // const mintTxWithName = await getSpecificAsset(mintTransactions, address);
   setTimeout(() => {
-    displayAddressSection(address, transactions, mintTxWithName);
+    displayAddressSection(address, LARGE_TX_TEST, LARGE_MINT_TX_TEST);
   }, 0);
 
   //4. Format transactions 
-  const formattedTransactions = formatTransactions(mintTxWithName);
+  const formattedTransactions = formatTransactions(LARGE_MINT_TX_TEST);
   setTimeout(() => {
     displayTransactionSection(formattedTransactions);
-  }, 2000);
+  }, 0);
 }
 
 async function getAllTransactions(address) {

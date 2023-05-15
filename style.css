@@ -343,6 +343,18 @@ select:-webkit-autofill:focus {
   color: var(--light-grey);
 }
 
+.pagination {
+  display: flex;
+  justify-content: end;
+}
+
+.pagination-container {
+  display: flex;
+  gap: 10px;
+  padding: 5px;
+  background-color: var(--light-blue);
+}
+
 @media (max-width: 1400px) {
 
   /**Home page**/
@@ -400,6 +412,10 @@ select:-webkit-autofill:focus {
   .error-container,
   .transactions-container {
     padding: 20px;
+  }
+
+  .pagination-container {
+    justify-content: center;
   }
 
   .transaction-row:first-child {
