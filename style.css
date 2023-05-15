@@ -103,6 +103,7 @@ body {
   background-color: var(--darkest-blue);
   cursor: pointer;
 }
+
 /* Change Autocomplete styles in Chrome*/
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -141,6 +142,7 @@ select:-webkit-autofill:focus {
 .address-form-container {
   width: 50%;
 }
+
 .address-body {
   background-color: var(--darkest-blue);
 }
@@ -234,6 +236,7 @@ select:-webkit-autofill:focus {
   0% {
     transform: rotate(0deg);
   }
+
   100% {
     transform: rotate(360deg);
   }
@@ -281,13 +284,14 @@ select:-webkit-autofill:focus {
 
 .transaction-label {
   flex-shrink: 0;
-  width: 125px;
+  width: 110px;
 }
 
 .asset-name-row {
   display: flex;
   flex-direction: column;
 }
+
 .hidden {
   display: none;
 }
@@ -306,10 +310,12 @@ select:-webkit-autofill:focus {
 }
 
 @media (max-width: 1400px) {
+
   /**Home page**/
   .main-container {
     width: 80%;
   }
+
   /**Address page**/
   .address-header-container,
   .address-form-container,
@@ -324,6 +330,7 @@ select:-webkit-autofill:focus {
   .main-container {
     width: 90%;
   }
+
   .cardano-logo-big {
     height: 60px;
     width: 60px;
@@ -347,11 +354,18 @@ select:-webkit-autofill:focus {
   .search-bar-button {
     font-size: 1rem;
   }
+
   /**Address page**/
   .address-header-container,
   .address-form-container,
   .address-main-container {
     width: 90%;
+  }
+
+  .address-container,
+  .error-container,
+  .transactions-container {
+    padding: 20px;
   }
 
   .transaction-row:first-child {

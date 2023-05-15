@@ -47,16 +47,15 @@ async function updateDom(address) {
 
   //3. Find and replace output amount
   const mintTxWithName = await getSpecificAsset(mintTransactions, address);
-  //console.log(mintTxWithName);
   setTimeout(() => {
     updateAddressSection(address, transactions, mintTxWithName);
-  }, 2000);
+  }, 0);
+
   //4. Format transactions 
   const formattedTransactions = formatTransactions(mintTxWithName);
-
   setTimeout(() => {
     updateTransactionSection(formattedTransactions);
-  }, 4000);
+  }, 2000);
 }
 
 async function getAllTransactions(address) {
@@ -84,7 +83,7 @@ async function getSpecificAsset(mintTransactions, address) {
   let assetName = "";
   let param = "";
   for (let i = 0; i < mintTransactions.length; i++) {
-    //UXTO Mint
+    //Check uxto mint 
     if (mintTransactions[i].asset_mint_or_burn_count > 5 || mintTransactions[i].output_amount.length > 2) {
       const uxtoData = await getUxtoData(mintTransactions[i], address);
       const newArray = mintTransactions[i].output_amount.filter((item) => {
@@ -92,7 +91,6 @@ async function getSpecificAsset(mintTransactions, address) {
       })
       mintTransactions[i].output_amount = newArray;
     }
-
     for (let j = 1; j < mintTransactions[i].output_amount.length; j++) {
       param = mintTransactions[i].output_amount[j].unit;
       const jsonData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/assets/${param}`, ASSET_STRING);
@@ -124,7 +122,6 @@ async function getSpecificAsset(mintTransactions, address) {
     }
   }
 
-  //console.log(jsonData);
   return mintTransactions;
 }
 
@@ -137,11 +134,15 @@ async function getUxtoData(mintTransaction, address) {
   });
 
   for (let i = 0; i < sentData[0].amount.length; i++) {
-    //const assetData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/txs/${mintTransaction.hash}/utxos`, UXTO_STRING);
-    sentUnits.push(sentData[0].amount[i].unit);
+    if (sentData[0].amount[i].unit === "lovelace") {
+      sentUnits.push(sentData[0].amount[i].unit);
+      continue;
+    }
+    const receivedFromUxto = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/assets/${sentData[0].amount[i].unit}`, ASSET_STRING);
+    if (receivedFromUxto.initial_mint_tx_hash === mintTransaction.hash) {
+      sentUnits.push(sentData[0].amount[i].unit);
+    }
   };
-
-
   return sentUnits;
 }
 
@@ -165,37 +166,14 @@ function formatTransactions(transactions) {
   return formattedTransactions;
 }
 
-async function fetchData(url, wantedData) {
-  console.log("Fetching: ", wantedData)
-  const response = await fetch(url, { headers: { 'project_id': `${API_KEY}` } })
-  if (response.status != 200) {
-    console.log(`Error fetching ${wantedData} transactions: `, response)
-    return;
-  }
-  const jsonData = await response.json();
-  return jsonData;
-}
-
-async function fetchPaginatedData(url, wantedData) {
-  let currentPage = 1;
-  let allTransactions = [];
-  let pageData = await fetchData(url + `?page=${currentPage}`, wantedData);
-  while (pageData.length > 0) {
-    allTransactions = allTransactions.concat(pageData);
-    currentPage++;
-    pageData = await fetchData(url + `?page=${currentPage}`, wantedData);
-  }
-  return allTransactions;
-}
-
 function updateAddressSection(address, transactions, mintTransactions) {
   //Stop svg
   const addressSection = document.getElementById("address-section");
   const addressContainer = document.getElementById("address-container");
-  addressSection.classList.remove("hidden");
   const addressHeader = document.createElement("h2");
-  addressHeader.innerText = "Address";
+  addressSection.classList.remove("hidden");
   addressHeader.classList.add("subheader-text");
+  addressHeader.innerText = "Address";
   addressContainer.appendChild(addressHeader);
 
   const newDiv = document.createElement("div");
@@ -225,12 +203,11 @@ function updateAddressSection(address, transactions, mintTransactions) {
 function updateTransactionSection(transactions) {
   toggleAddressLoader();
   const transactionsSection = document.getElementById("transactions-section");
-  transactionsSection.classList.remove("hidden");
   const transactionsContainer = document.getElementById("transactions-container");
-  transactionsSection.classList.remove("hidden");
   const transactionHeader = document.createElement("h2");
-  transactionHeader.innerText = "Mint Transactions";
+  transactionsSection.classList.remove("hidden");
   transactionHeader.classList.add("subheader-text");
+  transactionHeader.innerText = "Mint Transactions";
   transactionsContainer.appendChild(transactionHeader);
 
   for (let i = 0; i < transactions.length; i++) {
@@ -273,18 +250,18 @@ function updateError(error, address) {
   toggleAddressLoader();
   console.log(error);
   const errorSection = document.getElementById("error-section");
-  errorSection.classList.remove("hidden");
   const errorHeader = document.createElement("h2");
-  errorHeader.innerText = "Error";
   errorHeader.classList.add("subheader-text");
   errorHeader.classList.add("error");
+  errorSection.classList.remove("hidden");
+  errorHeader.innerText = "Error";
 
   const errorText = document.createElement("p");
-  errorText.innerText = error;
-  errorText.classList.add("error-text");
   const addressText = document.createElement("p");
-  addressText.innerText = address;
+  errorText.classList.add("error-text");
   addressText.classList.add("error-address-text");
+  errorText.innerText = error;
+  addressText.innerText = address;
 
   errorSection.appendChild(errorHeader);
   errorSection.appendChild(errorText);
@@ -319,6 +296,29 @@ function addSearchEventListener() {
     console.log(searchBar.value);
     searchBar.value = "";
   })
+}
+
+async function fetchData(url, wantedData) {
+  //console.log("Fetching: ", wantedData)
+  const response = await fetch(url, { headers: { 'project_id': `${API_KEY}` } })
+  if (response.status != 200) {
+    console.log(`Error fetching ${wantedData} transactions: `, response)
+    return;
+  }
+  const jsonData = await response.json();
+  return jsonData;
+}
+
+async function fetchPaginatedData(url, wantedData) {
+  let currentPage = 1;
+  let allTransactions = [];
+  let pageData = await fetchData(url + `?page=${currentPage}`, wantedData);
+  while (pageData.length > 0) {
+    allTransactions = allTransactions.concat(pageData);
+    currentPage++;
+    pageData = await fetchData(url + `?page=${currentPage}`, wantedData);
+  }
+  return allTransactions;
 }
 
 addSearchEventListener();
