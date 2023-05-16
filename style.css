@@ -322,6 +322,8 @@ select:-webkit-autofill:focus {
   color: white;
   background-color: var(--lightest-blue);
   cursor: pointer;
+  flex-shrink: 0;
+  align-self: start;
 }
 
 .down-arrow {
@@ -329,6 +331,7 @@ select:-webkit-autofill:focus {
   font-size: 0.9rem;
   padding-right: 5px;
 }
+
 .transaction-label {
   flex-shrink: 0;
   width: 110px;
@@ -383,7 +386,9 @@ select:-webkit-autofill:focus {
   cursor: default;
   opacity: 40%;
 }
+
 @media (max-width: 1400px) {
+
   /**Home page**/
   .main-container {
     width: 80%;

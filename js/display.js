@@ -1,3 +1,4 @@
+import { downloadCSV } from './util.js';
 export function displayAddressSection(address, transactions, mintTransactions) {
   //Stop svg
   const addressSection = document.getElementById("address-section");
@@ -45,41 +46,42 @@ export function displayTransactionSection(transactions) {
   let pageStart = 0;
   let pageEnd = 5;
 
+  //Download CSV 
+  const downloadButton = transactionsSection.querySelector('#download-button');
+  downloadButton.addEventListener("click", () => {
+    downloadCSV(transactions, "mint-transactions");
+  })
+
+  //Pagination 
   if (transactions.length > limitPerPage) {
     const nextButton = transactionsSection.querySelector('#next-button');
     const prevButton = transactionsSection.querySelector('#prev-button');
 
     prevButton.disabled = true;
-    nextButton.addEventListener('click', () => {
 
-      prevButton.disabled = false;
+    const updatePagination = () => {
+      prevButton.disabled = currentPage === 1;
+      nextButton.disabled = currentPage === pageLimit;
+
+      renderTransactions(transactions, paginationContainer, pageStart, pageEnd, currentPage, pageLimit);
+    };
+
+    const handleNextButtonClick = () => {
+      currentPage++;
       pageStart += limitPerPage;
       pageEnd += limitPerPage;
-      //TO DO functional ? 
-      currentPage++;
-      renderTransactions(transactions, paginationContainer, pageStart, pageEnd, currentPage, pageLimit);
+      updatePagination();
+    };
 
-      if (currentPage === pageLimit) {
-        nextButton.disabled = true;
-        return;
-      }
-
-    });
-
-    prevButton.addEventListener('click', () => {
-
-      nextButton.disabled = false;
+    const handlePrevButtonClick = () => {
+      currentPage--;
       pageStart -= limitPerPage;
       pageEnd -= limitPerPage;
-      currentPage--;
-      renderTransactions(transactions, paginationContainer, pageStart, pageEnd, currentPage, pageLimit);
+      updatePagination();
+    };
 
-      if (currentPage === 1) {
-        prevButton.disabled = true;
-        return;
-      }
-
-    });
+    nextButton.addEventListener('click', handleNextButtonClick);
+    prevButton.addEventListener('click', handlePrevButtonClick);
   }
 
   renderTransactions(transactions, paginationContainer, pageStart, pageEnd, currentPage, pageLimit);
