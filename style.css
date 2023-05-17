@@ -1,13 +1,14 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
-  --dark-blue: #1a1c2b;
-  --dark-light-blue: #343655;
-  --medium-blue: #222433;
-  --light-blue: #427bdf;
-  --lightest-blue: #6a93da;
-  --light-grey: rgb(172, 170, 170);
-
+  --black: #000000;
+  --dark-grey: #151419;
+  --medium-grey: #232227;
+  --accent-blue: #2873ff;
+  --dark-error: #b00020;
+  --light-error: #cf6679;
+  --off-white: #ffffff;
+  --light-grey: #b3b3b3;
 }
 
 h1,
@@ -25,226 +26,136 @@ a {
   white-space: normal;
 }
 
+a {
+  text-decoration: none;
+}
+
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: var(--medium-blue);
 }
 
-.header-container {
-  display: flex;
-  align-items: center;
-  padding-left: 100px;
+/* Container sizes */
+.medium-container {
+  width: 50%;
+}
+.large-container {
+  width: 80%;
+}
+
+.max-container {
   width: 100%;
-  height: 70px;
+}
+/* Background color sizes */
+.medium-background {
+  background-color: var(--medium-grey);
+}
+.dark-background {
+  background-color: var(--dark-grey);
+}
+.black-background {
+  background-color: var(--black);
 }
 
-.title-row {
-  display: flex;
-  flex-shrink: 0;
-  align-items: center;
-  margin-top: 100px;
-}
-
-.title-link {
-  display: flex;
-  align-items: center;
-  flex-shrink: 0;
-  text-decoration: none;
-}
-
-.cardano-logo-big {
-  width: 70px;
-  height: 70px;
-}
-
-.title-text {
-  padding-left: 25px;
-  font-size: 1.8rem;
+/* Text Colors*/
+.white {
   color: white;
 }
 
-.main-container {
-  width: 70%;
-  background-color: var(--medium-blue);
+.light-grey {
+  color: var(--light-grey);
 }
 
-.form-container {
-  width: 100%;
+.no-shrink {
+  flex-shrink: 0;
 }
 
-.form-container {
-  margin-top: 30px;
+/* Components */
+.main-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  background-color: var(--accent-blue);
+  border: none;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.delete-button {
+  color: white;
+  border: none;
+  cursor: pointer;
+  background-color: var(--medium-grey);
+  font-weight: bold;
+  padding-left: 10px;
+  padding-right: 10px;
+  font-size: 1.2rem;
 }
 
 .search-bar {
-  font-size: 1rem;
-  border: none;
-  height: 70px;
-  color: rgb(172, 170, 170);
   width: 100%;
-  background-color: var(--dark-blue);
+  border: none;
+  color: var(--light-grey);
+  background-color: var(--medium-grey);
   padding-left: 25px;
 }
 
-.error-modal {
-  padding: 5px 10px 5px 10px;
-  background-color: white;
-  position: fixed;
-  z-index: 1;
-  top: 260px;
-  animation: fade 4s;
+button:hover {
+  opacity: 50%;
 }
 
-@keyframes fade {
-  75% {
-    opacity: 1;
+.loader {
+  display: flex;
+  align-items: center;
+  margin-top: 50px;
+  border: 7px solid var(--medium-grey);
+  border-top: 7px solid var(--accent-blue);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
 
   100% {
-    opacity: 0;
+    transform: rotate(360deg);
   }
 }
 
-.error-modal-address {
-  top: 120px;
+a {
+  color: var(--accent-blue);
 }
 
-.error-modal-text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: black;
+.small-label {
+  width: 110px;
 }
 
-.search-bar-button,
-.address-search-bar-button {
-  display: flex;
-  align-items: center;
-  padding-left: 10px;
-  padding-right: 10px;
-  border: none;
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: white;
-  background-color: var(--dark-blue);
-  cursor: pointer;
+.large-label {
+  width: 140px;
 }
 
-/* Change Autocomplete styles in Chrome*/
-input:-webkit-autofill,
-input:-webkit-autofill:hover,
-input:-webkit-autofill:focus,
-textarea:-webkit-autofill,
-textarea:-webkit-autofill:hover,
-textarea:-webkit-autofill:focus,
-select:-webkit-autofill,
-select:-webkit-autofill:hover,
-select:-webkit-autofill:focus {
-  border: none;
-  -webkit-text-fill-color: var(--light-grey);
-  -webkit-box-shadow: 0 0 0px 1000px var(--dark-blue) inset;
-  transition: background-color 5000s ease-in-out 0s;
+.hidden {
+  display: none;
 }
 
-.search-row {
-  color: White;
-  display: flex;
+.error {
+  color: var(--light-error);
 }
 
-.submit-button,
-.address-submit-button {
-  font-size: 1rem;
-  width: 150px;
-  border: none;
-  color: white;
-  background-color: var(--light-blue);
-  cursor: pointer;
+.error-text {
+  font-size: 0.9rem;
 }
 
-/***************Address***************/
-/*Containers*/
-.address-header-container,
-.address-main-container,
-.address-form-container {
-  width: 50%;
+.error-address-text {
+  font-size: 0.9rem;
+  color: var(--light-grey);
 }
-
-.address-body {
-  background-color: var(--dark-blue);
-}
-
-/*Address header*/
-.address-row:first-child {
-  display: block;
-}
-
-.home-link {
-  display: flex;
-  align-items: center;
-  text-decoration: none;
-}
-
-.cardanoScan-link,
-.cardanoScan-link:visited {
-  text-decoration: none;
-  color: var(--light-blue);
-}
-
-.address-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: var(--medium-blue);
-  width: 100%;
-  padding-bottom: 30px;
-}
-
-.address-header-container {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-.cardano-logo-small {
-  width: 30px;
-  height: 30px;
-}
-
-.address-header-text {
-  padding-left: 20px;
-  font-size: 1.2rem;
-  color: white;
-}
-
-.address-search-bar {
-  font-size: 0.8rem;
-  border: none;
-  height: 40px;
-  color: rgb(172, 170, 170);
-  width: 100%;
-  background-color: var(--dark-blue);
-  padding-left: 25px;
-}
-
-.address-search-bar-button {
-  font-size: 0.8rem;
-}
-
-.address-submit-button {
-  font-size: 0.8rem;
-  width: 100px;
-}
-
-.date-range-container {
-  position: relative;
-  display: inline-block;
-  font-size: 0.8rem;
-}
-
 .date-range-button {
   color: var(--light-grey);
   border: none;
@@ -284,50 +195,157 @@ select:-webkit-autofill:focus {
   align-items: center;
   justify-content: space-between;
 }
+/************** Home **************/
+.title-row {
+  display: flex;
+  align-items: center;
+  margin-top: 100px;
+  margin-bottom: 30px;
+}
+.cardano-logo-big {
+  width: 70px;
+  height: 70px;
+}
+.title-link {
+  display: flex;
+  align-items: center;
+}
+
+.title-text {
+  padding-left: 25px;
+  font-size: 1.8rem;
+}
+
+.search-row {
+  display: flex;
+}
+
+.large-search-bar {
+  font-size: 1rem;
+  height: 70px;
+}
+
+.submit-button {
+  font-size: 1rem;
+  width: 125px;
+}
+
+.filter-button {
+  margin-top: 10px;
+  padding: 5px 15px 5px 15px;
+}
+.error-modal {
+  padding: 5px 10px 5px 10px;
+  background-color: white;
+  position: fixed;
+  z-index: 1;
+  top: 260px;
+  animation: fade 4s;
+}
+
+@keyframes fade {
+  75% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+.error-modal-address {
+  top: 120px;
+}
+
+.error-modal-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: black;
+}
+
+/* Change Autocomplete styles in Chrome*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: none;
+  -webkit-text-fill-color: var(--light-grey);
+  -webkit-box-shadow: 0 0 0px 1000px var(--dark-blue) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/***************Address***************/
+.address-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 30px;
+}
+
+.address-header-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.cardano-logo-small {
+  width: 30px;
+  height: 30px;
+}
+
+.address-header-text {
+  padding-left: 20px;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.small-search-bar {
+  font-size: 0.8rem;
+  height: 40px;
+}
+
+.address-search-bar-button {
+  font-size: 0.8rem;
+}
+
+.address-submit-button {
+  font-size: 0.8rem;
+  width: 100px;
+}
+
+.date-range-container {
+  position: relative;
+  display: inline-block;
+  font-size: 0.8rem;
+}
 
 /*Address main container*/
+.info-section {
+  width: 100%;
+  background-color: var(--dark-grey);
+  margin-top: 20px;
+}
+
+.info-container {
+  padding: 30px;
+}
 .address-main-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   color: white;
-  background-color: var(--dark-blue);
 }
 
-.loader {
-  display: flex;
-  align-items: center;
-  margin-top: 50px;
-  border: 7px solid var(--dark-blue);
-  border-top: 7px solid var(--light-blue);
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1.5s linear infinite;
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.address-section,
-.error-section,
-.transactions-section {
-  width: 100%;
-  background-color: var(--medium-blue);
-  margin-top: 20px;
-}
-
-.address-container,
-.error-container,
-.transactions-container {
-  padding: 30px;
+.info-row:first-child {
+  display: block;
 }
 
 .address-text {
@@ -335,29 +353,16 @@ select:-webkit-autofill:focus {
   font-weight: bold;
 }
 
-.address-row {
-  font-size: 0.9rem;
-}
-
-.address-label {
-  width: 140px;
-}
-
-.transactions-section {
-  margin-bottom: 20px;
-}
-
-.transaction {
-  font-size: 0.9rem;
-  padding-top: 10px;
-  padding-bottom: 10px;
-}
-
-.address-row,
-.transaction-row {
+.info-row {
   display: flex;
   padding-top: 5px;
   padding-bottom: 5px;
+  font-size: 0.9rem;
+}
+
+.transaction {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .transactions-header-row {
@@ -368,11 +373,6 @@ select:-webkit-autofill:focus {
 .download-button {
   font-size: 0.8rem;
   padding: 5px 10px 5px 10px;
-  border: none;
-  color: white;
-  background-color: var(--light-blue);
-  cursor: pointer;
-  flex-shrink: 0;
   align-self: start;
 }
 
@@ -382,31 +382,9 @@ select:-webkit-autofill:focus {
   padding-right: 5px;
 }
 
-.transaction-label {
-  flex-shrink: 0;
-  width: 110px;
-}
-
 .asset-name-row {
   display: flex;
   flex-direction: column;
-}
-
-.hidden {
-  display: none;
-}
-
-.error {
-  color: rgb(255, 26, 26);
-}
-
-.error-text {
-  font-size: 0.9rem;
-}
-
-.error-address-text {
-  font-size: 0.9rem;
-  color: var(--light-grey);
 }
 
 .pagination-controls {
@@ -428,21 +406,8 @@ select:-webkit-autofill:focus {
   border: none;
   height: 25px;
   width: 30px;
-  background-color: var(--dark-blue);
-  color: var(--light-blue);
-}
-
-.search-bar-button:hover,
-.address-submit-button:hover,
-.submit-button:hover,
-.download-button:hover {
-  background-color: var(--lightest-blue);
-}
-
-.date-range-button:hover,
-.address-search-bar-button:hover,
-.pagination-button:hover:enabled {
-  background-color: var(--dark-light-blue);
+  background-color: var(--medium-grey);
+  color: var(--accent-blue);
 }
 
 .pagination-button:disabled {
@@ -450,25 +415,20 @@ select:-webkit-autofill:focus {
   opacity: 40%;
 }
 
-
 @media (max-width: 1400px) {
-
   /**Home page**/
   .main-container {
     width: 80%;
   }
 
   /**Address page**/
-  .address-header-container,
-  .address-form-container,
-  .address-main-container {
+  .medium-container {
     width: 70%;
   }
 }
 
 @media (max-width: 740px) {
   /**Home page**/
-
   .main-container {
     width: 90%;
   }
@@ -483,30 +443,27 @@ select:-webkit-autofill:focus {
     font-size: 1.4rem;
   }
 
-  .search-bar {
+  .large-search-bar {
     font-size: 0.8rem;
     height: 50px;
     padding-left: 15px;
   }
 
   .submit-button {
+    width: 75px;
     font-size: 0.8rem;
   }
 
-  .search-bar-button {
+  .delete-button {
     font-size: 1rem;
   }
 
   /**Address page**/
-  .address-header-container,
-  .address-form-container,
-  .address-main-container {
+  .medium-container {
     width: 90%;
   }
 
-  .address-container,
-  .error-container,
-  .transactions-container {
+  .info-container {
     padding: 20px;
   }
 

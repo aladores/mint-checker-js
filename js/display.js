@@ -13,7 +13,7 @@ export function displayAddressSection(address, transactions, mintTransactions) {
   newDiv.classList.add("address");
 
   newDiv.innerHTML = `
-    <div class="address-row">
+    <div class="info-row">
       <p class="address-text">
         <a href = "https://cardanoscan.io/address/${address}" 
           target="_blank" class="cardanoScan-link">
@@ -21,16 +21,16 @@ export function displayAddressSection(address, transactions, mintTransactions) {
         </a>
       </p>
     </div>
-    <div class="address-row">
-      <p class="address-label">Total Transactions:  </p>
+    <div class="info-row">
+      <p class="large-label">Total Transactions:  </p>
       <p>${transactions.length}</p>
     </div>
-    <div class="address-row">
-      <p class="address-label">Mint Transactions:  </p>
+    <div class="info-row">
+      <p class="large-label">Mint Transactions:  </p>
       <p>${mintTransactions.length} </p>
     </div>
-    <div class="address-row">
-      <p class="address-label">Date Range:  </p>
+    <div class="info-row">
+      <p class="large-label">Date Range:  </p>
       <p>All </p>
     </div>
   `;
@@ -108,8 +108,8 @@ function renderTransactions(transactions, paginationContainer, pageStart, pageEn
     }
 
     newDiv.innerHTML = `
-      <div class="transaction-row">
-        <p class="transaction-label">Transaction id: </p>
+      <div class="info-row">
+        <p class="small-label no-shrink">Transaction id: </p>
         <p>
           <a href = "https://cardanoscan.io/transaction/${transactions[i].hash}" 
             target="_blank" class="cardanoScan-link">
@@ -117,12 +117,12 @@ function renderTransactions(transactions, paginationContainer, pageStart, pageEn
           </a>
         </p>
       </div>
-      <div class="transaction-row">
-        <p  class="transaction-label"> Received time: </p>
+      <div class="info-row">
+        <p  class="small-label no-shrink"> Received time: </p>
         <p> ${transactions[i].block_time}</p>
       </div>
-      <div class="transaction-row">
-        <p  class="transaction-label"> Asset name: </p>
+      <div class="info-row">
+        <p  class="small-label no-shrink"> Asset name: </p>
         <div class="asset-row">
           ${nameElement}
         </div

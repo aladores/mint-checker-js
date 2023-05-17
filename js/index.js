@@ -58,13 +58,13 @@ async function updateDom(address) {
   // const mintTxWithName = await getSpecificAsset(mintTransactions, address);
   setTimeout(() => {
     displayAddressSection(address, LARGE_TX_TEST, LARGE_MINT_TX_TEST);
-  }, 0);
+  }, 2000);
 
   //4. Format transactions 
   const formattedTransactions = formatTransactions(LARGE_MINT_TX_TEST);
   setTimeout(() => {
     displayTransactionSection(formattedTransactions);
-  }, 0);
+  }, 4000);
 }
 
 async function getAllTransactions(address) {

@@ -12,11 +12,11 @@
   <title>Mint Checker</title>
 </head>
 
-<body class="address-body">
-  <header class="address-header">
-    <div class="address-header-container">
+<body class="black-background">
+  <header class="address-header dark-background max-container">
+    <div class="address-header-container medium-container">
       <div class="address-header-left">
-        <a href="index.html" class="home-link">
+        <a href="index.html" class="title-link">
           <img src="images/cardano-logo.png" alt="cardano-logo" class="cardano-logo-small">
           <h1 class="address-header-text">Cardano Mint Checker</h1>
         </a>
@@ -24,10 +24,10 @@
       <div class="address-header-right">
       </div>
     </div>
-    <form id="search-form" class="address-form-container">
-      <div class="search-row">
-        <input type="text" id="search-bar" class="address-search-bar" placeholder="Search by address" value="">
-        <button id="search-bar-delete" class="address-search-bar-button hidden" type="button">x</button>
+    <form id="search-form" class="address-form-container medium-container">
+      <div class="search-row ">
+        <input type="text" id="search-bar" class="search-bar small-search-bar" placeholder="Search by address" value="">
+        <button id="search-bar-delete" class="delete-button hidden" type="button">x</button>
         <!-- <div id="date-range-selector" class="date-range-container">
           <button id="date-range-button" class="date-range-button" type="button">Date
             Range ↓</button>
@@ -42,25 +42,26 @@
             </div>
           </div>
         </div> -->
-        <button type="submit" class="address-submit-button">Submit →</button>
+        <button type="submit" class="main-button address-submit-button">Submit →</button>
       </div>
     </form>
   </header>
 
-  <main class="address-main-container">
-    <section id="error-section" class="error-section hidden">
-      <div id="error-container" class="error-container">
+  <main class="address-main-container medium-container">
+    <section id="error-section" class="info-section hidden">
+      <div id="error-container" class="info-container">
         <h2 classList="subheader-text error">Error</h2>
       </div>
     </section>
-    <section id="address-section" class="address-section hidden">
-      <div id="address-container" class="address-container"></div>
+    <section id="address-section" class="info-section hidden">
+      <div id="address-container" class="info-container"></div>
     </section>
-    <section id="transactions-section" class="transactions-section hidden">
-      <div id="transactions-container" class="transactions-container">
+    <section id="transactions-section" class="info-section hidden">
+      <div id="transactions-container" class="info-container">
         <div class="transactions-header-row">
           <h2 id="transactions-header" class="subheader-text">Mint Transactions</h2>
-          <button id="download-button" class="download-button"><span class="down-arrow">↓</span> Download CSV</button>
+          <button id="download-button" class="main-button download-button"><span class="down-arrow">↓</span> Download
+            CSV</button>
         </div>
         <nav class="pagination">
           <div class="pagination-controls">

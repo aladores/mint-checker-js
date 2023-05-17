@@ -12,36 +12,24 @@
   <title>Mint Checker</title>
 </head>
 
-<body>
-  <main class="main-container">
-    <div class="title-row">
+<body class="dark-background">
+  <main class="large-container">
+    <div class="title-row no-shrink">
       <a href="index.html" class="title-link">
         <img src="images/cardano-logo.png" alt="cardano-logo" class="cardano-logo-big">
-        <h1 class="title-text">Cardano Mint Checker</h1>
+        <h1 class="title-text white">Cardano Mint Checker</h1>
       </a>
     </div>
-    <form class="form-container" id="search-form">
+    <form class="max-container" id="search-form">
       <div class="search-row">
-        <input type="text" id="search-bar" class="search-bar" placeholder="Search by address">
-        <button id="search-bar-delete" class="search-bar-button hidden" type="button">x</button>
-        <!-- <div class="date-range-container">
-          <button id="date-range-button" class="date-range-button " type="button">Date
-            Range ↓</button>
-          <div id="date-range-wrapper" class="date-range-wrapper hidden">
-            <div class="date-range-row">
-              <label class="date-range-label">To: </label>
-              <input type="date" id="to-date" class="input-date">
-            </div>
-            <div class="date-range-row">
-              <label class="date-range-label">From: </label>
-              <input type="date" id="from-date" class="input-date">
-            </div>
-          </div>
-        </div> -->
+        <input type="text" id="search-bar" class="search-bar large-search-bar medium-background max-container grey"
+          placeholder="Search by address">
+        <button id="search-bar-delete" class="delete-button hidden" type="button">x</button>
         <!-- value="addr1q9ezzague67wzye6lpwvqs8swcr8y4xt87dml4zep99n4ffprcxk4qu56t4u8zhgtsry2l9ual69q9hygznf93v0vyfsh2gq2p"> -->
-        <button type="submit" class="submit-button">Search →</button>
+        <button type="submit" class="main-button submit-button">Search →</button>
       </div>
     </form>
+    <button class="main-button filter-button">Filter Date</button>
   </main>
   <script type="module" src="js/index.js"></script>
 </body>
