@@ -29,6 +29,10 @@ export function displayAddressSection(address, transactions, mintTransactions) {
       <p class="address-label">Mint Transactions:  </p>
       <p>${mintTransactions.length} </p>
     </div>
+    <div class="address-row">
+      <p class="address-label">Date Range:  </p>
+      <p>All </p>
+    </div>
   `;
   addressContainer.appendChild(newDiv);
 }

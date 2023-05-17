@@ -176,6 +176,8 @@ function formatTransactions(transactions) {
 function addSearchEventListener() {
   const form = document.getElementById('search-form');
   const searchBar = document.getElementById('search-bar');
+  // const dateRangeButton = document.getElementById("date-range-selector");
+  // const dateRangeWrapper = document.getElementById("date-range-wrapper");
   const searchBarButton = document.getElementById("search-bar-delete");
 
   form.addEventListener('submit', function (event) {
@@ -192,6 +194,10 @@ function addSearchEventListener() {
     console.log(searchBar.value);
     searchBar.value = "";
   })
+
+  // dateRangeButton.addEventListener('click', function () {
+  //   dateRangeWrapper.classList.toggle('hidden');
+  // })
 }
 
 addSearchEventListener();

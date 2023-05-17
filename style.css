@@ -1,11 +1,13 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 
-
   --dark-blue: #1a1c2b;
+  --dark-light-blue: #343655;
   --medium-blue: #222433;
   --light-blue: #427bdf;
+  --lightest-blue: #6a93da;
   --light-grey: rgb(172, 170, 170);
+
 }
 
 h1,
@@ -64,7 +66,7 @@ body {
 }
 
 .main-container {
-  width: 50%;
+  width: 70%;
   background-color: var(--medium-blue);
 }
 
@@ -155,7 +157,7 @@ select:-webkit-autofill:focus {
 .submit-button,
 .address-submit-button {
   font-size: 1rem;
-  width: 125px;
+  width: 150px;
   border: none;
   color: white;
   background-color: var(--light-blue);
@@ -226,7 +228,6 @@ select:-webkit-autofill:focus {
   width: 100%;
   background-color: var(--dark-blue);
   padding-left: 25px;
-  padding-right: 25px;
 }
 
 .address-search-bar-button {
@@ -236,6 +237,52 @@ select:-webkit-autofill:focus {
 .address-submit-button {
   font-size: 0.8rem;
   width: 100px;
+}
+
+.date-range-container {
+  position: relative;
+  display: inline-block;
+  font-size: 0.8rem;
+}
+
+.date-range-button {
+  color: var(--light-grey);
+  border: none;
+  position: relative;
+  width: 175px;
+  height: 100%;
+  background-color: var(--dark-blue);
+  border: none;
+  cursor: pointer;
+}
+
+.date-range-button:before {
+  content: "";
+  position: absolute;
+  top: 25%;
+  left: 0;
+  height: 50%;
+  width: 1px;
+  background-color: var(--light-grey);
+}
+
+.date-range-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: absolute;
+  background-color: var(--dark-light-blue);
+  padding: 10px;
+}
+
+.date-range-label {
+  width: 50px;
+}
+
+.date-range-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 /*Address main container*/
@@ -288,8 +335,12 @@ select:-webkit-autofill:focus {
   font-weight: bold;
 }
 
+.address-row {
+  font-size: 0.9rem;
+}
+
 .address-label {
-  width: 150px;
+  width: 140px;
 }
 
 .transactions-section {
@@ -382,15 +433,17 @@ select:-webkit-autofill:focus {
 }
 
 .search-bar-button:hover,
-.address-search-bar-button:hover,
-.pagination-button:hover:enabled,
 .address-submit-button:hover,
 .submit-button:hover,
 .download-button:hover {
-  color: var(--dark-blue);
-  background-color: white;
+  background-color: var(--lightest-blue);
 }
 
+.date-range-button:hover,
+.address-search-bar-button:hover,
+.pagination-button:hover:enabled {
+  background-color: var(--dark-light-blue);
+}
 
 .pagination-button:disabled {
   cursor: default;
