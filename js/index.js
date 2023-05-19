@@ -1,5 +1,5 @@
 
-import { API_KEY } from './config.js';
+
 import { fetchData, fetchPaginatedData } from './util.js';
 import {
   displayAddressSection, displayTransactionSection,
@@ -15,17 +15,17 @@ const ASSET_STRING = "SPECIFIC ASSET"
 const UXTO_STRING = "UXTO"
 
 function handleSubmit() {
+  const dateRange = document.getElementById("date-range");
   const searchBar = document.getElementById("search-bar");
-  const searchBarValue = searchBar.value;
 
   //Spam 1: addr1qxyezkc02lpz0y8l587lhckpcjsed0v7wrjayut9alc75xkqgcy2x7t7d58zyt2rydep075va5xluwuqsdpssk60m4fqgccl75
   //Spam 2: addr1qydp5tjzex2xa87p8kz9hvm7e7mqj8wul28ylggvvrjf7n5sgq4a3gmwkf5ugalw6hgr8uvv4fk24mnl87hfcsx3pzjs3xkc73
-  if (!searchBarValue.startsWith("addr")) {
+  if (!searchBar.value.startsWith("addr")) {
     const location = window.location.href;
     displaySearchError(location);
     return;
   }
-  window.location = "address.html?" + `addr=${searchBarValue}`;
+  window.location = "address.html" + `?addr=${searchBar.value}` + `&date=${dateRange.value}`;
 }
 
 function loadAddress() {
@@ -33,48 +33,54 @@ function loadAddress() {
 
   if (urlSearchParams.has("addr")) {
     const formData = Object.fromEntries(urlSearchParams.entries());
-    updateDom(formData.addr);
+    updateDom(formData.addr, formData.date);
   }
 }
 
-async function updateDom(address) {
-
+async function updateDom(address, date) {
   toggleAddressLoader();
   //1. Get all transactions
-  // const transactions = await getAllTransactions(address);
-  // if (transactions.length === 0) {
-  //   displayError("No transactions found in this address:", address);
-  //   return;
-  // }
+  const transactions = await getAllTransactions(address, date);
+  if (transactions.length === 0) {
+    displayError("No transactions found in this address:", address);
+    return;
+  }
 
-  // //2. Find if any of those transactions are minted
-  // const mintTransactions = await getAllMintTransactions(transactions);
-  // if (mintTransactions.length === 0) {
-  //   displayError("No mint transactions found in this address:", address);
-  //   return;
-  // }
+  //2. Find if any of those transactions are minted
+  const mintTransactions = await getAllMintTransactions(transactions);
+  if (mintTransactions.length === 0) {
+    displayError("No mint transactions found in this address:", address);
+    return;
+  }
 
-  // //3. Find and replace output amount
-  // const mintTxWithName = await getSpecificAsset(mintTransactions, address);
+  //3. Find and replace output amount
+  const mintTxWithName = await getSpecificAsset(mintTransactions, address);
   setTimeout(() => {
-    displayAddressSection(address, LARGE_TX_TEST, LARGE_MINT_TX_TEST);
-  }, 2000);
+    displayAddressSection(address, transactions, mintTxWithName);
+  }, 0);
 
   //4. Format transactions 
-  const formattedTransactions = formatTransactions(LARGE_MINT_TX_TEST);
+  const formattedTransactions = formatTransactions(mintTxWithName);
   setTimeout(() => {
     displayTransactionSection(formattedTransactions);
-  }, 4000);
+  }, 2000);
 }
 
-async function getAllTransactions(address) {
+async function getAllTransactions(address, date) {
   const jsonData = await fetchPaginatedData(`https://cardano-mainnet.blockfrost.io/api/v0/addresses/${address}/transactions`, ALL_TRANSACTION_STRING);
   const transactions = [];
 
   for (let i = 0; i < jsonData.length; i++) {
-    transactions.push(jsonData[i].tx_hash);
+    if (date === "All") {
+      transactions.push(jsonData[i].tx_hash);
+    }
+    else {
+      const formattedDate = new Date(jsonData[i].block_time * 1000);
+      if (formattedDate.getFullYear() === parseInt(date)) {
+        transactions.push(jsonData[i].tx_hash);
+      }
+    }
   }
-
   return transactions;
 }
 
@@ -160,7 +166,6 @@ function formatTransactions(transactions) {
     let names = [];
     const { block_time, hash } = transactions[i];
     for (let j = 1; j < transactions[i].output_amount.length; j++) {
-      //console.log(transactions[i].output_amount[j].name);
       names.push(transactions[i].output_amount[j].name);
     }
     const formattedDate = new Date(block_time * 1000);
@@ -176,10 +181,7 @@ function formatTransactions(transactions) {
 function addSearchEventListener() {
   const form = document.getElementById('search-form');
   const searchBar = document.getElementById('search-bar');
-  // const dateRangeButton = document.getElementById("date-range-selector");
-  // const dateRangeWrapper = document.getElementById("date-range-wrapper");
   const searchBarButton = document.getElementById("search-bar-delete");
-
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     handleSubmit();
@@ -191,13 +193,8 @@ function addSearchEventListener() {
 
   searchBarButton.addEventListener('click', function (event) {
     handleInputChange(event, searchBarButton);
-    console.log(searchBar.value);
     searchBar.value = "";
   })
-
-  // dateRangeButton.addEventListener('click', function () {
-  //   dateRangeWrapper.classList.toggle('hidden');
-  // })
 }
 
 addSearchEventListener();

@@ -140,6 +140,10 @@ a {
   width: 140px;
 }
 
+.small-icon {
+  height: 20px;
+  width: 20px;
+}
 .hidden {
   display: none;
 }
@@ -156,45 +160,11 @@ a {
   font-size: 0.9rem;
   color: var(--light-grey);
 }
-.date-range-button {
-  color: var(--light-grey);
-  border: none;
-  position: relative;
-  width: 175px;
-  height: 100%;
-  background-color: var(--dark-blue);
-  border: none;
-  cursor: pointer;
-}
 
-.date-range-button:before {
-  content: "";
-  position: absolute;
-  top: 25%;
-  left: 0;
-  height: 50%;
-  width: 1px;
-  background-color: var(--light-grey);
-}
-
-.date-range-wrapper {
+.drop-down-container {
   display: flex;
-  flex-direction: column;
-  gap: 10px;
-  position: absolute;
-  background-color: var(--dark-light-blue);
-  padding: 10px;
 }
 
-.date-range-label {
-  width: 50px;
-}
-
-.date-range-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
 /************** Home **************/
 .title-row {
   display: flex;
@@ -230,10 +200,6 @@ a {
   width: 125px;
 }
 
-.filter-button {
-  margin-top: 10px;
-  padding: 5px 15px 5px 15px;
-}
 .error-modal {
   padding: 5px 10px 5px 10px;
   background-color: white;
@@ -319,12 +285,6 @@ select:-webkit-autofill:focus {
 .address-submit-button {
   font-size: 0.8rem;
   width: 100px;
-}
-
-.date-range-container {
-  position: relative;
-  display: inline-block;
-  font-size: 0.8rem;
 }
 
 /*Address main container*/

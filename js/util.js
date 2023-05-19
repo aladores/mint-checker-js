@@ -1,6 +1,7 @@
 
+import { API_KEY } from './config.js';
 export async function fetchData(url, wantedData) {
-    //console.log("Fetching: ", wantedData)
+    console.log("Fetching: ", wantedData)
     const response = await fetch(url, { headers: { 'project_id': `${API_KEY}` } })
     if (response.status != 200) {
         console.log(`Error fetching ${wantedData} transactions: `, response)
