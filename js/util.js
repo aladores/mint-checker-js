@@ -1,7 +1,7 @@
 
 import { API_KEY } from './config.js';
 export async function fetchData(url, wantedData) {
-    console.log("Fetching: ", wantedData)
+    //console.log("Fetching: ", wantedData)
     const response = await fetch(url, { headers: { 'project_id': `${API_KEY}` } })
     if (response.status != 200) {
         console.log(`Error fetching ${wantedData} transactions: `, response)
@@ -25,7 +25,6 @@ export async function fetchPaginatedData(url, wantedData) {
 
 export function downloadCSV(data, fileName) {
     const csvData = convertToCSV(data);
-    console.log(csvData);
     const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
     if (navigator.msSaveBlob) { // For IE 10+
         navigator.msSaveBlob(blob, fileName);
@@ -44,13 +43,14 @@ export function downloadCSV(data, fileName) {
 }
 
 function convertToCSV(data) {
-    //console.log(data);
     const csvRows = [];
     const headers = Object.keys(data[0]);
     csvRows.push(headers.join(','));
 
     data.forEach(element => {
-        const values = Object.values(element).join(',');
+        const values = Object.values(element)
+            .map(value => value.toString().replace(',', ''))
+            .join(',');
         csvRows.push(values);
     });
     return csvRows.join('\n')
