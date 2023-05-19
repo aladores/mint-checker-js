@@ -162,7 +162,51 @@ a {
 }
 
 .drop-down-container {
+  margin-top: 15px;
   display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.drop-down-menu,
+.drop-down-menu * {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  box-sizing: border-box;
+}
+.drop-down-menu {
+  position: relative;
+  background-color: var(--medium-grey);
+}
+.drop-down-menu select {
+  color: white;
+  background-color: var(--medium-grey);
+  font-size: 1rem;
+  font-weight: normal;
+  max-width: 100%;
+  padding: 5px 30px 5px 15px;
+  border: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.drop-down-menu select:active,
+.drop-down-menu select:focus {
+  outline: none;
+  box-shadow: none;
+}
+.drop-down-menu:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  width: 0;
+  height: 0;
+  margin-top: -2px;
+  border-top: 5px solid #aaa;
+  border-right: 5px solid transparent;
+  border-left: 5px solid transparent;
 }
 
 /************** Home **************/
@@ -273,17 +317,18 @@ select:-webkit-autofill:focus {
   color: white;
 }
 
-.small-search-bar {
-  font-size: 0.8rem;
+.search-bar-small {
   height: 40px;
 }
-
-.address-search-bar-button {
+.address-submit-button,
+.address-search-bar-button,
+.search-bar-small,
+.form-label-small,
+.drop-down-menu-small select {
   font-size: 0.8rem;
 }
 
 .address-submit-button {
-  font-size: 0.8rem;
   width: 100px;
 }
 

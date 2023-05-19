@@ -25,6 +25,7 @@ export async function fetchPaginatedData(url, wantedData) {
 
 export function downloadCSV(data, fileName) {
     const csvData = convertToCSV(data);
+    console.log(csvData);
     const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
     if (navigator.msSaveBlob) { // For IE 10+
         navigator.msSaveBlob(blob, fileName);
