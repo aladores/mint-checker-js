@@ -56,7 +56,7 @@ async function updateDom(address, date) {
   //3. Find and replace output amount
   const mintTxWithName = await getSpecificAsset(mintTransactions, address);
   setTimeout(() => {
-    displayAddressSection(address, transactions, mintTxWithName);
+    displayAddressSection(address, transactions, mintTxWithName, date);
   }, 0);
 
   //4. Format transactions 

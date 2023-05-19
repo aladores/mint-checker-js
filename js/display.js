@@ -1,5 +1,5 @@
 import { downloadCSV } from './util.js';
-export function displayAddressSection(address, transactions, mintTransactions) {
+export function displayAddressSection(address, transactions, mintTransactions, date) {
   //Stop svg
   const addressSection = document.getElementById("address-section");
   const addressContainer = document.getElementById("address-container");
@@ -31,7 +31,7 @@ export function displayAddressSection(address, transactions, mintTransactions) {
     </div>
     <div class="info-row">
       <p class="large-label">Date Range:  </p>
-      <p>All </p>
+      <p>${date.toString()}</p>
     </div>
   `;
   addressContainer.appendChild(newDiv);
