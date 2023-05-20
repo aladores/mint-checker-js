@@ -42,6 +42,8 @@ export function displayTransactionSection(transactions) {
   const transactionsSection = document.getElementById("transactions-section");
   const paginationContainer = document.getElementById("pagination-container");
   transactionsSection.classList.remove("hidden");
+  const nextButton = transactionsSection.querySelector('#next-button');
+  const prevButton = transactionsSection.querySelector('#prev-button');
 
   const limitPerPage = 5;
   const pageLimit = Math.ceil(transactions.length / limitPerPage);
@@ -57,10 +59,13 @@ export function displayTransactionSection(transactions) {
   })
 
   //Pagination 
-  if (transactions.length > limitPerPage) {
-    const nextButton = transactionsSection.querySelector('#next-button');
-    const prevButton = transactionsSection.querySelector('#prev-button');
 
+
+  if (transactions.length < limitPerPage) {
+    prevButton.disabled = true;
+    nextButton.disabled = true;
+  }
+  if (transactions.length > limitPerPage) {
     prevButton.disabled = true;
 
     const updatePagination = () => {
@@ -87,6 +92,7 @@ export function displayTransactionSection(transactions) {
     nextButton.addEventListener('click', handleNextButtonClick);
     prevButton.addEventListener('click', handlePrevButtonClick);
   }
+
 
   renderTransactions(transactions, paginationContainer, pageStart, pageEnd, currentPage, pageLimit);
 }

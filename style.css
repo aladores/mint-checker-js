@@ -371,10 +371,6 @@ select:-webkit-autofill:focus {
   align-items: center;
 }
 
-.info-row:first-child {
-  display: block;
-}
-
 .address-text {
   font-size: 0.9rem;
   font-weight: bold;
@@ -439,7 +435,7 @@ select:-webkit-autofill:focus {
 
 .pagination-button:disabled {
   cursor: default;
-  opacity: 40%;
+  opacity: 20%;
 }
 
 @media (max-width: 1400px) {
@@ -494,6 +490,7 @@ select:-webkit-autofill:focus {
     padding: 20px;
   }
 
+  .info-row:first-child,
   .transaction-row:first-child {
     display: block;
   }
