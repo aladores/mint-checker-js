@@ -182,6 +182,9 @@ function addSearchEventListener() {
   const form = document.getElementById('search-form');
   const searchBar = document.getElementById('search-bar');
   const searchBarButton = document.getElementById("search-bar-delete");
+  const themeButton = document.getElementById("theme-button");
+  const themeButtonImage = document.getElementById("theme-button-image");
+  const titleLogo = document.getElementById("title-logo");
   form.addEventListener('submit', function (event) {
     event.preventDefault();
     handleSubmit();
@@ -195,6 +198,22 @@ function addSearchEventListener() {
     handleInputChange(event, searchBarButton);
     searchBar.value = "";
   })
+
+  themeButton.addEventListener('click', (event) => {
+
+    document.body.classList.toggle("light-mode");
+
+    if (document.body.classList.contains("light-mode")) {
+      themeButtonImage.src = "./images/sun-icon.png";
+      titleLogo.src = "./images/cardano-logo-black.png";
+    }
+    else {
+      themeButtonImage.src = "./images/moon-icon.png";
+      titleLogo.src = "./images/cardano-logo.png";
+
+    }
+  });
+
 }
 
 addSearchEventListener();

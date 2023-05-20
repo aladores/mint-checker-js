@@ -4,13 +4,32 @@
   --black: #000000;
   --dark-grey: #151419;
   --medium-grey: #232227;
+  --light-grey: #b3b3b3;
+  --light-blue: #bad0f480;
   --accent-blue: #2873ff;
   --dark-error: #b00020;
   --light-error: #cf6679;
-  --off-white: #ffffff;
-  --light-grey: #b3b3b3;
+  --white: #ffffff;
+  --off-white: #ededed;
+
+  --base-bkg-color: var(--black);
+  --primary-text-color: var(--white);
+  --secondary-text-color: var(--light-grey);
+  --primary-bkg-color: var(--dark-grey);
+  --secondary-bkg-color: var(--medium-grey);
+  --button-color: var(--accent-blue);
+  --secondary-accent-color: var(--medium-grey);
 }
 
+.light-mode {
+  --base-bkg-color: var(--off-white);
+  --primary-text-color: var(--black);
+  --secondary-text-color: var(--medium-grey);
+  --primary-bkg-color: var(--white);
+  --secondary-bkg-color: var(--off-white);
+  --button-color: var(--accent-blue);
+  --secondary-accent-color: var(--light-blue);
+}
 h1,
 h2,
 h3,
@@ -34,6 +53,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  color: var(--primary-text-color);
+  background-color: var(--base-bkg-color);
 }
 
 /* Container sizes */
@@ -47,26 +69,6 @@ body {
 .max-container {
   width: 100%;
 }
-/* Background color sizes */
-.medium-background {
-  background-color: var(--medium-grey);
-}
-.dark-background {
-  background-color: var(--dark-grey);
-}
-.black-background {
-  background-color: var(--black);
-}
-
-/* Text Colors*/
-.white {
-  color: white;
-}
-
-.light-grey {
-  color: var(--light-grey);
-}
-
 .no-shrink {
   flex-shrink: 0;
 }
@@ -84,10 +86,10 @@ body {
 }
 
 .delete-button {
-  color: white;
+  color: var(--primary-text-color);
   border: none;
   cursor: pointer;
-  background-color: var(--medium-grey);
+  background-color: var(--secondary-bkg-color);
   font-weight: bold;
   padding-left: 10px;
   padding-right: 10px;
@@ -97,8 +99,8 @@ body {
 .search-bar {
   width: 100%;
   border: none;
-  color: var(--light-grey);
-  background-color: var(--medium-grey);
+  color: var(--secondary-text-color);
+  background-color: var(--secondary-bkg-color);
   padding-left: 25px;
 }
 
@@ -110,7 +112,7 @@ button:hover {
   display: flex;
   align-items: center;
   margin-top: 50px;
-  border: 7px solid var(--medium-grey);
+  border: 7px solid var(--secondary-accent-color);
   border-top: 7px solid var(--accent-blue);
   border-radius: 50%;
   width: 40px;
@@ -136,10 +138,25 @@ a {
   width: 110px;
 }
 
+.theme-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  background: var(--secondary-accent-color);
+  border: 1px solid var(--secondary-accent-color);
+  border-radius: 50%;
+}
+
+.theme-button-small {
+  height: 35px;
+  width: 35px;
+}
 .large-label {
   width: 140px;
 }
-
 .small-icon {
   height: 20px;
   width: 20px;
@@ -177,11 +194,11 @@ a {
 }
 .drop-down-menu {
   position: relative;
-  background-color: var(--medium-grey);
+  background-color: var(--secondary-bkg-color);
 }
 .drop-down-menu select {
-  color: white;
-  background-color: var(--medium-grey);
+  color: var(--primary-text-color);
+  background-color: var(--secondary-bkg-color);
   font-size: 1rem;
   font-weight: normal;
   max-width: 100%;
@@ -210,8 +227,13 @@ a {
 }
 
 /************** Home **************/
+
+.home-background {
+  background-color: var(--primary-bkg-color);
+}
 .title-row {
   display: flex;
+  justify-content: space-between;
   align-items: center;
   margin-top: 100px;
   margin-bottom: 30px;
@@ -228,6 +250,7 @@ a {
 .title-text {
   padding-left: 25px;
   font-size: 1.8rem;
+  color: var(--primary-text-color);
 }
 
 .search-row {
@@ -286,8 +309,8 @@ select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
   border: none;
-  -webkit-text-fill-color: var(--light-grey);
-  -webkit-box-shadow: 0 0 0px 1000px var(--dark-blue) inset;
+  -webkit-text-fill-color: var(--secondary-text-color);
+  -webkit-box-shadow: 0 0 0px 1000px var(--secondary-bkg-color) inset;
   transition: background-color 5000s ease-in-out 0s;
 }
 
@@ -297,13 +320,14 @@ select:-webkit-autofill:focus {
   flex-direction: column;
   align-items: center;
   padding-bottom: 20px;
+  background-color: var(--primary-bkg-color);
 }
 
 .address-header-container {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .cardano-logo-small {
@@ -311,10 +335,9 @@ select:-webkit-autofill:focus {
   height: 30px;
 }
 
-.address-header-text {
+.title-text-small {
   padding-left: 20px;
   font-size: 1.2rem;
-  color: white;
 }
 
 .search-bar-small {
@@ -335,7 +358,7 @@ select:-webkit-autofill:focus {
 /*Address main container*/
 .info-section {
   width: 100%;
-  background-color: var(--dark-grey);
+  background-color: var(--primary-bkg-color);
   margin-top: 20px;
 }
 
@@ -346,7 +369,6 @@ select:-webkit-autofill:focus {
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: white;
 }
 
 .info-row:first-child {
@@ -411,7 +433,7 @@ select:-webkit-autofill:focus {
   border: none;
   height: 25px;
   width: 30px;
-  background-color: var(--medium-grey);
+  background-color: var(--secondary-bkg-color);
   color: var(--accent-blue);
 }
 
