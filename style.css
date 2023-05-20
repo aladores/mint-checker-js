@@ -371,6 +371,10 @@ select:-webkit-autofill:focus {
   align-items: center;
 }
 
+.address-main-container:nth-last-child(2) {
+  padding-bottom: 20px;
+}
+
 .address-text {
   font-size: 0.9rem;
   font-weight: bold;
@@ -479,6 +483,14 @@ select:-webkit-autofill:focus {
 
   .delete-button {
     font-size: 1rem;
+  }
+
+  .home-theme-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin-top: 20px;
+    margin-right: 20px;
   }
 
   /**Address page**/

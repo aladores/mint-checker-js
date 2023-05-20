@@ -109,7 +109,6 @@ async function getSpecificAsset(mintTransactions, address) {
     for (let j = 1; j < mintTransactions[i].output_amount.length; j++) {
       param = mintTransactions[i].output_amount[j].unit;
       const jsonAsset = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/assets/${param}`, ASSET_STRING);
-      //Change to switch statement?
       if (jsonAsset.onchain_metadata !== null) {
         assetName = findName(jsonAsset.onchain_metadata);
       }
@@ -140,7 +139,6 @@ function findName(jsonAsset) {
 }
 async function getUxtoData(mintTransaction, address) {
   const sentUnits = [];
-
   const uxtoData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/txs/${mintTransaction.hash}/utxos`, UXTO_STRING);
   const sentData = uxtoData.outputs.filter((item) => {
     return item.address === address;
@@ -217,9 +215,9 @@ function setColorTheme() {
   titleLogo.src = "./images/cardano-logo.png";
 }
 function setInitialColorTheme() {
-  localStorage.getItem('isLightMode') === "true" ?
-    document.body.classList.add("light-mode") :
-    document.body.classList.remove("light-mode");
+  localStorage.getItem('isLightMode') === "true"
+    ? document.body.classList.add("light-mode")
+    : document.body.classList.remove("light-mode");
   setColorTheme();
 }
 setInitialColorTheme();

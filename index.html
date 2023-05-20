@@ -13,35 +13,37 @@
 </head>
 
 <body class="home-background">
-  <main class="large-container">
-    <div class="title-row no-shrink">
+  <div class="large-container">
+    <header class="title-row no-shrink">
       <a href="index.html" class="title-link">
-        <img id="title-logo" src="images/cardano-logo.png" alt="cardano-logo" class="cardano-logo-big">
+        <img id="title-logo" src="images/cardano-logo.png" alt="Cardano Logo" class="cardano-logo-big">
         <h1 class="title-text">Cardano Mint Checker</h1>
       </a>
-      <button class="theme-button" id="theme-button"><img id="theme-button-image" src="./images/moon-icon.png"
-          alt="dark-mode theme" class="small-icon"></button>
-    </div>
-    <form class="max-container" id="search-form">
-      <div class="search-row">
-        <input type="text" id="search-bar" class="search-bar large-search-bar medium-background max-container grey"
-          placeholder="Search by address">
-        <button id="search-bar-delete" class="delete-button hidden" type="button">x</button>
-        <button type="submit" class="main-button submit-button">Search →</button>
+      <button class="theme-button home-theme-button" id="theme-button" aria-label="Toggle theme"><img
+          id="theme-button-image" src="./images/moon-icon.png" alt="Color theme icon" class="small-icon"></button>
+    </header>
+    <main>
+      <form class="max-container" id="search-form">
+        <div class="search-row">
+          <input type="text" id="search-bar" class="search-bar large-search-bar medium-background max-container grey"
+            placeholder="Search by address">
+          <button id="search-bar-delete" class="delete-button hidden" type="button">x</button>
+          <button type="submit" class="main-button submit-button">Search →</button>
+        </div>
+      </form>
+      <div class="drop-down-container">
+        <label for="date-range" class="form-label">Date Range: </label>
+        <div class="drop-down-menu">
+          <select name="date-range" id="date-range">
+            <option value="All">All</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+            <option value="2021">2021</option>
+          </select>
+        </div>
       </div>
-    </form>
-    <div class="drop-down-container">
-      <label for="date-range" class="form-label">Date Range: </label>
-      <div class="drop-down-menu">
-        <select name="date-range" id="date-range">
-          <option value="All">All</option>
-          <option value="2023">2023</option>
-          <option value="2022">2022</option>
-          <option value="2021">2021</option>
-        </select>
-      </div>
-    </div>
-  </main>
+    </main>
+  </div>
   <script type="module" src="js/index.js"></script>
 </body>
 

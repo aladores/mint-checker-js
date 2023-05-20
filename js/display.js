@@ -59,38 +59,31 @@ export function displayTransactionSection(transactions) {
   })
 
   //Pagination 
-
-
-  if (transactions.length < limitPerPage) {
-    prevButton.disabled = true;
-    nextButton.disabled = true;
-  }
   if (transactions.length > limitPerPage) {
     prevButton.disabled = true;
 
     const updatePagination = () => {
       prevButton.disabled = currentPage === 1;
       nextButton.disabled = currentPage === pageLimit;
-
       renderTransactions(transactions, paginationContainer, pageStart, pageEnd, currentPage, pageLimit);
     };
 
-    const handleNextButtonClick = () => {
+    nextButton.addEventListener('click', () => {
       currentPage++;
       pageStart += limitPerPage;
       pageEnd += limitPerPage;
       updatePagination();
-    };
-
-    const handlePrevButtonClick = () => {
+    });
+    prevButton.addEventListener('click', () => {
       currentPage--;
       pageStart -= limitPerPage;
       pageEnd -= limitPerPage;
       updatePagination();
-    };
-
-    nextButton.addEventListener('click', handleNextButtonClick);
-    prevButton.addEventListener('click', handlePrevButtonClick);
+    });
+  }
+  else {
+    prevButton.disabled = true;
+    nextButton.disabled = true;
   }
 
 
