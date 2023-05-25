@@ -6,7 +6,8 @@
   --medium-grey: #232227;
   --light-grey: #b3b3b3;
   --light-blue: #bad0f480;
-  --accent-blue: #2873ff;
+  --light-accent-blue: #27aafb;
+  --dark-accent-blue: #0037ff;
   --dark-error: #b00020;
   --light-error: #cf6679;
   --white: #ffffff;
@@ -17,7 +18,8 @@
   --secondary-text-color: var(--light-grey);
   --primary-bkg-color: var(--dark-grey);
   --secondary-bkg-color: var(--medium-grey);
-  --button-color: var(--accent-blue);
+  --button-color: var(--light-accent-blue);
+  --button-text-color: var(--black);
   --secondary-accent-color: var(--medium-grey);
 }
 
@@ -27,7 +29,8 @@
   --secondary-text-color: var(--medium-grey);
   --primary-bkg-color: var(--white);
   --secondary-bkg-color: var(--off-white);
-  --button-color: var(--accent-blue);
+  --button-color: var(--dark-accent-blue);
+  --button-text-color: var(--white);
   --secondary-accent-color: var(--light-blue);
 }
 h1,
@@ -46,6 +49,7 @@ a {
 }
 
 a {
+  color: var(--button-color);
   text-decoration: none;
 }
 
@@ -78,8 +82,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
-  background-color: var(--accent-blue);
+  color: var(--button-text-color);
+  background-color: var(--button-color);
   border: none;
   flex-shrink: 0;
   cursor: pointer;
@@ -113,7 +117,7 @@ button:hover {
   align-items: center;
   margin-top: 50px;
   border: 7px solid var(--secondary-accent-color);
-  border-top: 7px solid var(--accent-blue);
+  border-top: 7px solid var(--button-color);
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -128,10 +132,6 @@ button:hover {
   100% {
     transform: rotate(360deg);
   }
-}
-
-a {
-  color: var(--accent-blue);
 }
 
 .small-label {

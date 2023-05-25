@@ -63,7 +63,7 @@ async function updateDom(address, date) {
   const formattedTransactions = formatTransactions(mintTxWithName);
   setTimeout(() => {
     displayTransactionSection(formattedTransactions);
-  }, 0);
+  }, 2000);
 }
 
 async function getAllTransactions(address, date) {
