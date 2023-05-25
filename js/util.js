@@ -49,9 +49,10 @@ function convertToCSV(data) {
 
     data.forEach(element => {
         const values = Object.values(element)
-            .map(value => value.toString().replace(',', ''))
+            .map((value) => `"${value}"`)
             .join(',');
         csvRows.push(values);
     });
+
     return csvRows.join('\n')
 }
