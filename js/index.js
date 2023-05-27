@@ -7,8 +7,6 @@ import {
   toggleAddressLoader, handleInputChange
 } from './display.js';
 
-import { MINT_TX_TEST, MULTIPLE_MINT_TX_TEST } from './tests/test.js';
-import { LARGE_TX_TEST, LARGE_MINT_TX_TEST } from './tests/largeTest.js';
 const ALL_TRANSACTION_STRING = "ALL TRANSACTIONS"
 const MINT_STRING = "MINT TRANSACTIONS"
 const ASSET_STRING = "SPECIFIC ASSET"
@@ -18,8 +16,6 @@ function handleSubmit() {
   const dateRange = document.getElementById("date-range");
   const searchBar = document.getElementById("search-bar");
 
-  //Spam 1: addr1qxyezkc02lpz0y8l587lhckpcjsed0v7wrjayut9alc75xkqgcy2x7t7d58zyt2rydep075va5xluwuqsdpssk60m4fqgccl75
-  //Spam 2: addr1qydp5tjzex2xa87p8kz9hvm7e7mqj8wul28ylggvvrjf7n5sgq4a3gmwkf5ugalw6hgr8uvv4fk24mnl87hfcsx3pzjs3xkc73
   if (!searchBar.value.startsWith("addr")) {
     const location = window.location.href;
     displaySearchError(location);
@@ -39,27 +35,25 @@ function loadAddress() {
 
 async function updateDom(address, date) {
   toggleAddressLoader();
-  //1. Get all transactions
+
   const transactions = await getAllTransactions(address, date);
   if (transactions.length === 0) {
     displayError("No transactions found in this address:", address);
     return;
   }
 
-  //2. Find if any of those transactions are minted
   const mintTransactions = await getAllMintTransactions(transactions);
   if (mintTransactions.length === 0) {
     displayError("No mint transactions found in this address:", address);
     return;
   }
 
-  //3. Find and replace output amount
   const mintTxWithName = await getSpecificAsset(mintTransactions, address);
+
   setTimeout(() => {
     displayAddressSection(address, transactions, mintTxWithName, date);
   }, 0);
 
-  //4. Format transactions 
   const formattedTransactions = formatTransactions(mintTxWithName);
   setTimeout(() => {
     displayTransactionSection(formattedTransactions);
@@ -112,7 +106,6 @@ async function getSpecificAsset(mintTransactions, address) {
       if (jsonAsset.onchain_metadata !== null) {
         assetName = findName(jsonAsset.onchain_metadata);
       }
-      //Add asset name to mint transaction
       mintTransactions[i].output_amount[j].name = assetName;
     }
   }
@@ -201,6 +194,7 @@ function addSearchEventListener() {
     setColorTheme();
   });
 }
+
 function setColorTheme() {
   const themeButtonImage = document.getElementById("theme-button-image");
   const titleLogo = document.getElementById("title-logo");
@@ -214,6 +208,7 @@ function setColorTheme() {
   themeButtonImage.src = "./images/moon-icon.png";
   titleLogo.src = "./images/cardano-logo.png";
 }
+
 function setInitialColorTheme() {
   localStorage.getItem('isLightMode') === "true"
     ? document.body.classList.add("light-mode")

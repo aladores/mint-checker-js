@@ -1,6 +1,6 @@
 import { downloadCSV } from './util.js';
 export function displayAddressSection(address, transactions, mintTransactions, date) {
-  //Stop svg
+
   const addressSection = document.getElementById("address-section");
   const addressContainer = document.getElementById("address-container");
   const addressHeader = document.createElement("h2");
@@ -52,7 +52,6 @@ export function displayTransactionSection(transactions) {
   let pageStart = 0;
   let pageEnd = 5;
 
-  //Download CSV 
   const downloadButton = transactionsSection.querySelector('#download-button');
   downloadButton.addEventListener("click", () => {
     downloadCSV(transactions, "mint-transactions");
