@@ -56,6 +56,7 @@ export function updateAddressSectionMint(mintTransactions) {
 }
 
 export function displayTransactionSection(transactions) {
+  toggleLoader();
   const transactionsSection = document.getElementById("transactions-section");
   const paginationContainer = document.getElementById("pagination-container");
   transactionsSection.classList.remove("hidden");
@@ -105,7 +106,6 @@ export function displayTransactionSection(transactions) {
 }
 
 function renderTransactions(transactions, paginationContainer, pageStart, pageEnd, currentPage, pageLimit) {
-  toggleLoader();
   const label = document.getElementById("pagination-label");
   label.innerHTML = `Page ${currentPage} of ${pageLimit}`;
   paginationContainer.innerHTML = "";

@@ -118,7 +118,7 @@ button:hover {
 .loader {
   display: flex;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 40px;
   border: 7px solid var(--secondary-accent-color);
   border-top: 7px solid var(--button-color);
   border-radius: 50%;
