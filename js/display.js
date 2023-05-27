@@ -1,6 +1,6 @@
 import { downloadCSV } from './util.js';
-export function displayAddressSection(address, transactions, mintTransactions, date) {
 
+export function displayAddressSection(address, date) {
   const addressSection = document.getElementById("address-section");
   const addressContainer = document.getElementById("address-container");
   const addressHeader = document.createElement("h2");
@@ -22,23 +22,40 @@ export function displayAddressSection(address, transactions, mintTransactions, d
       </p>
     </div>
     <div class="info-row">
-      <p class="large-label">Total Transactions:  </p>
-      <p>${transactions.length}</p>
-    </div>
-    <div class="info-row">
-      <p class="large-label">Mint Transactions:  </p>
-      <p>${mintTransactions.length} </p>
-    </div>
-    <div class="info-row">
       <p class="large-label">Date Range:  </p>
       <p>${date.toString()}</p>
     </div>
+    <div class="info-row">
+      <p class="large-label">Total Transactions:  </p>
+      <p id="address-transactions"></p>
+      <div id="address-loader" class="inline-loader"></div>
+  </div>
   `;
   addressContainer.appendChild(newDiv);
+};
+export function updateAddressSectionTx(transactions) {
+  removeInlineLoader();
+  const addressContainer = document.getElementById("address-container");
+  const addressTransactions = document.getElementById("address-transactions");
+
+  addressTransactions.innerHTML += `<p>${transactions.length}</p>`;
+
+  addressContainer.innerHTML += `
+   <div class="info-row">
+      <p class="large-label">Mint Transactions:  </p>
+      <p id="address-mint-transactions"></p>
+      <div id="address-loader" class="inline-loader"></div>
+    </div>
+  `;
+}
+
+export function updateAddressSectionMint(mintTransactions) {
+  removeInlineLoader();
+  const addressMintTransactions = document.getElementById("address-mint-transactions");
+  addressMintTransactions.innerHTML += `<p>${mintTransactions.length}</p>`;
 }
 
 export function displayTransactionSection(transactions) {
-  toggleAddressLoader();
   const transactionsSection = document.getElementById("transactions-section");
   const paginationContainer = document.getElementById("pagination-container");
   transactionsSection.classList.remove("hidden");
@@ -84,12 +101,11 @@ export function displayTransactionSection(transactions) {
     prevButton.disabled = true;
     nextButton.disabled = true;
   }
-
-
   renderTransactions(transactions, paginationContainer, pageStart, pageEnd, currentPage, pageLimit);
 }
 
 function renderTransactions(transactions, paginationContainer, pageStart, pageEnd, currentPage, pageLimit) {
+  toggleLoader();
   const label = document.getElementById("pagination-label");
   label.innerHTML = `Page ${currentPage} of ${pageLimit}`;
   paginationContainer.innerHTML = "";
@@ -134,7 +150,7 @@ function renderTransactions(transactions, paginationContainer, pageStart, pageEn
   }
 }
 export function displayError(error, address) {
-  toggleAddressLoader();
+  toggleLoader();
   console.log(error);
   errorSection.classList.remove("hidden");
   const errorContainer = document.getElementById("error-container");
@@ -167,11 +183,17 @@ export function displaySearchError(location) {
   }, 4000);
 }
 
-export function toggleAddressLoader() {
+export function handleInputChange(event, searchBarButton) {
+  event.target.value ? searchBarButton.classList.remove("hidden") : searchBarButton.classList.add("hidden");
+}
+
+export function toggleLoader() {
   const loader = document.getElementById("loader");
   loader.classList.contains("hidden") ? loader.classList.remove("hidden") : loader.classList.add("hidden");
 }
 
-export function handleInputChange(event, searchBarButton) {
-  event.target.value ? searchBarButton.classList.remove("hidden") : searchBarButton.classList.add("hidden");
+function removeInlineLoader() {
+  const loader = document.getElementById("address-loader");
+  loader.remove();
 }
+

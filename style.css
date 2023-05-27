@@ -33,6 +33,7 @@
   --button-text-color: var(--white);
   --secondary-accent-color: var(--light-blue);
 }
+
 h1,
 h2,
 h3,
@@ -66,6 +67,7 @@ body {
 .medium-container {
   width: 50%;
 }
+
 .large-container {
   width: 80%;
 }
@@ -73,6 +75,7 @@ body {
 .max-container {
   width: 100%;
 }
+
 .no-shrink {
   flex-shrink: 0;
 }
@@ -124,6 +127,17 @@ button:hover {
   animation: spin 1.5s linear infinite;
 }
 
+.inline-loader {
+  display: flex;
+  align-items: center;
+  border: 3px solid var(--secondary-accent-color);
+  border-top: 3px solid var(--button-color);
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  animation: spin 1.5s linear infinite;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -154,13 +168,16 @@ button:hover {
   height: 35px;
   width: 35px;
 }
+
 .large-label {
   width: 140px;
 }
+
 .small-icon {
   height: 20px;
   width: 20px;
 }
+
 .hidden {
   display: none;
 }
@@ -192,10 +209,12 @@ button:hover {
   position: relative;
   box-sizing: border-box;
 }
+
 .drop-down-menu {
   position: relative;
   background-color: var(--secondary-bkg-color);
 }
+
 .drop-down-menu select {
   color: var(--primary-text-color);
   background-color: var(--secondary-bkg-color);
@@ -208,11 +227,13 @@ button:hover {
   -moz-appearance: none;
   appearance: none;
 }
+
 .drop-down-menu select:active,
 .drop-down-menu select:focus {
   outline: none;
   box-shadow: none;
 }
+
 .drop-down-menu:after {
   content: "";
   position: absolute;
@@ -231,6 +252,7 @@ button:hover {
 .home-background {
   background-color: var(--primary-bkg-color);
 }
+
 .title-row {
   display: flex;
   justify-content: space-between;
@@ -238,10 +260,12 @@ button:hover {
   margin-top: 100px;
   margin-bottom: 30px;
 }
+
 .cardano-logo-big {
   width: 70px;
   height: 70px;
 }
+
 .title-link {
   display: flex;
   align-items: center;
@@ -343,6 +367,7 @@ select:-webkit-autofill:focus {
 .search-bar-small {
   height: 40px;
 }
+
 .address-submit-button,
 .address-search-bar-button,
 .search-bar-small,
@@ -365,6 +390,7 @@ select:-webkit-autofill:focus {
 .info-container {
   padding: 30px;
 }
+
 .address-main-container {
   display: flex;
   flex-direction: column;
@@ -434,7 +460,7 @@ select:-webkit-autofill:focus {
   height: 25px;
   width: 30px;
   background-color: var(--secondary-bkg-color);
-  color: var(--accent-blue);
+  color: var(--button-color);
 }
 
 .pagination-button:disabled {
@@ -443,6 +469,7 @@ select:-webkit-autofill:focus {
 }
 
 @media (max-width: 1400px) {
+
   /**Home page**/
   .main-container {
     width: 80%;
@@ -455,6 +482,7 @@ select:-webkit-autofill:focus {
 }
 
 @media (max-width: 740px) {
+
   /**Home page**/
   .main-container {
     width: 90%;

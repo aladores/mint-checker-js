@@ -3,8 +3,8 @@
 import { fetchData, fetchPaginatedData } from './util.js';
 import {
   displayAddressSection, displayTransactionSection,
-  displayError, displaySearchError,
-  toggleAddressLoader, handleInputChange
+  updateAddressSectionTx, updateAddressSectionMint, toggleLoader,
+  displayError, displaySearchError, handleInputChange
 } from './display.js';
 
 const ALL_TRANSACTION_STRING = "ALL TRANSACTIONS"
@@ -34,30 +34,27 @@ function loadAddress() {
 }
 
 async function updateDom(address, date) {
-  toggleAddressLoader();
+
+  displayAddressSection(address, date);
 
   const transactions = await getAllTransactions(address, date);
   if (transactions.length === 0) {
     displayError("No transactions found in this address:", address);
     return;
   }
+  updateAddressSectionTx(transactions);
 
   const mintTransactions = await getAllMintTransactions(transactions);
   if (mintTransactions.length === 0) {
     displayError("No mint transactions found in this address:", address);
     return;
   }
+  updateAddressSectionMint(mintTransactions);
 
+  toggleLoader();
   const mintTxWithName = await getSpecificAsset(mintTransactions, address);
-
-  setTimeout(() => {
-    displayAddressSection(address, transactions, mintTxWithName, date);
-  }, 0);
-
   const formattedTransactions = formatTransactions(mintTxWithName);
-  setTimeout(() => {
-    displayTransactionSection(formattedTransactions);
-  }, 2000);
+  displayTransactionSection(formattedTransactions);
 }
 
 async function getAllTransactions(address, date) {
