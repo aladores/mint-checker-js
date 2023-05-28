@@ -150,21 +150,21 @@ function renderTransactions(transactions, paginationContainer, pageStart, pageEn
   }
 }
 export function displayError(error, address) {
-  toggleLoader();
   console.log(error);
-  errorSection.classList.remove("hidden");
-  const errorContainer = document.getElementById("error-container");
+  const addressSection = document.getElementById("address-section");
+  const transactionSection = document.getElementById("transactions-section");
+
+  addressSection.classList.add("hidden");
+  transactionSection.classList.add("hidden");
+
   const errorSection = document.getElementById("error-section");
+  errorSection.classList.remove("hidden");
 
-  const errorText = document.createElement("p");
-  const addressText = document.createElement("p");
-  errorText.classList.add("error-text");
-  addressText.classList.add("error-address-text");
-  errorText.innerText = error;
-  addressText.innerText = address;
+  const errorContainer = document.getElementById("error-container");
 
-  errorContainer.appendChild(errorText);
-  errorContainer.appendChild(addressText);
+  errorContainer.innerHTML += `
+    <p class="error-text">${error}</p>
+    <p class="error-address-text">${address}</p>`;
 }
 
 export function displaySearchError(location) {
@@ -174,7 +174,7 @@ export function displaySearchError(location) {
 
   errorModal.innerHTML =
     `<p class="error-modal-text">
-      <span class="error">Error:&nbsp</span> 
+      <span class="error-header">Error:&nbsp</span> 
       Address must begin with "addr1"</p>`;
   document.body.appendChild(errorModal);
 

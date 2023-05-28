@@ -21,6 +21,8 @@
   --button-color: var(--light-accent-blue);
   --button-text-color: var(--black);
   --secondary-accent-color: var(--medium-grey);
+  --error-color: var(--light-error);
+  --error-modal-color: var(--white);
 }
 
 .light-mode {
@@ -32,6 +34,8 @@
   --button-color: var(--dark-accent-blue);
   --button-text-color: var(--white);
   --secondary-accent-color: var(--light-blue);
+  --error-color: var(--dark-error);
+  --error-modal-color: var(--black);
 }
 
 h1,
@@ -182,17 +186,17 @@ button:hover {
   display: none;
 }
 
-.error {
-  color: var(--light-error);
+.error-header {
+  color: var(--error-color);
 }
 
-.error-text {
+.error-text,
+.error-address-text {
   font-size: 0.9rem;
 }
 
 .error-address-text {
-  font-size: 0.9rem;
-  color: var(--light-grey);
+  color: var(--error-color);
 }
 
 .drop-down-container {
@@ -293,11 +297,23 @@ button:hover {
 
 .error-modal {
   padding: 5px 10px 5px 10px;
-  background-color: white;
+  background-color: var(--error-modal-color);
   position: fixed;
   z-index: 1;
-  top: 260px;
+  top: 300px;
   animation: fade 4s;
+}
+
+.error-modal-address {
+  top: 150px;
+}
+
+.error-modal-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: var(--button-text-color);
 }
 
 @keyframes fade {
@@ -308,18 +324,6 @@ button:hover {
   100% {
     opacity: 0;
   }
-}
-
-.error-modal-address {
-  top: 120px;
-}
-
-.error-modal-text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: black;
 }
 
 /* Change Autocomplete styles in Chrome*/
