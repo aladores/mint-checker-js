@@ -113,6 +113,7 @@ body {
   color: var(--secondary-text-color);
   background-color: var(--secondary-bkg-color);
   padding-left: 25px;
+  position: relative;
 }
 
 button:hover {
@@ -182,8 +183,16 @@ button:hover {
   width: 20px;
 }
 
+.no-visibility {
+  visibility: hidden;
+}
+
 .hidden {
   display: none;
+}
+
+.search-bar-error {
+  outline-color: var(--error-color) !important;
 }
 
 .error-header {
@@ -222,7 +231,7 @@ button:hover {
 .drop-down-menu select {
   color: var(--primary-text-color);
   background-color: var(--secondary-bkg-color);
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: normal;
   max-width: 100%;
   padding: 5px 30px 5px 15px;
@@ -262,7 +271,7 @@ button:hover {
   justify-content: space-between;
   align-items: center;
   margin-top: 100px;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .cardano-logo-big {
@@ -295,35 +304,17 @@ button:hover {
   width: 125px;
 }
 
-.error-modal {
-  padding: 5px 10px 5px 10px;
-  background-color: var(--error-modal-color);
-  position: fixed;
-  z-index: 1;
-  top: 300px;
-  animation: fade 4s;
+.search-form {
+  margin-top: 30px;
 }
 
-.error-modal-address {
-  top: 150px;
+.search-error {
+  font-size: 0.9rem;
+  color: var(--error-color);
 }
 
-.error-modal-text {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: var(--button-text-color);
-}
-
-@keyframes fade {
-  75% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
-  }
+.form-label {
+  font-size: 0.9rem;
 }
 
 /* Change Autocomplete styles in Chrome*/
@@ -355,7 +346,6 @@ select:-webkit-autofill:focus {
   display: flex;
   justify-content: space-between;
   margin-top: 20px;
-  margin-bottom: 10px;
 }
 
 .cardano-logo-small {

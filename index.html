@@ -29,10 +29,11 @@
           id="theme-button-image" src="./images/moon-icon.png" alt="Color theme icon" class="small-icon"></button>
     </header>
     <main>
-      <form class="max-container" id="search-form">
+      <form class="max-container" id="search-form" role="search">
+        <p id="search-error" role="alert" class="search-error no-visibility">Error: address must begin with addr1...</p>
         <div class="search-row">
-          <input type="text" id="search-bar" class="search-bar large-search-bar medium-background max-container grey"
-            placeholder="Search by address">
+          <input type="text" id="search-bar" class="search-bar large-search-bar max-container"
+            placeholder="Search by address" required>
           <button id="search-bar-delete" class="delete-button hidden" type="button">x</button>
           <button type="submit" class="main-button submit-button">Search →</button>
         </div>

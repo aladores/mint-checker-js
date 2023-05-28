@@ -168,22 +168,16 @@ export function displayError(error, address) {
 }
 
 export function displaySearchError(location) {
-  const errorModal = document.createElement("div");
-  errorModal.classList.add("error-modal")
-  location.includes("address.html") ? errorModal.classList.add("error-modal-address") : "";
+  const searchBar = document.getElementById("search-bar");
+  const searchError = document.getElementById("search-error");
 
-  errorModal.innerHTML =
-    `<p class="error-modal-text">
-      <span class="error-header">Error:&nbsp</span> 
-      Address must begin with "addr1"</p>`;
-  document.body.appendChild(errorModal);
-
-  setTimeout(() => {
-    errorModal.remove();
-  }, 4000);
+  searchError.classList.remove("no-visibility");
+  searchBar.focus();
+  searchBar.classList.add("search-bar-error");
 }
 
 export function handleInputChange(event, searchBarButton) {
+  removeSearchError();
   event.target.value ? searchBarButton.classList.remove("hidden") : searchBarButton.classList.add("hidden");
 }
 
@@ -192,6 +186,13 @@ export function toggleLoader() {
   loader.classList.contains("hidden") ? loader.classList.remove("hidden") : loader.classList.add("hidden");
 }
 
+function removeSearchError() {
+  const searchBar = document.getElementById("search-bar");
+  const searchError = document.getElementById("search-error");
+  searchError.classList.add("no-visibility");
+  searchBar.classList.remove("search-bar-error");
+
+}
 function removeInlineLoader() {
   const loader = document.getElementById("address-loader");
   loader.remove();
