@@ -1,6 +1,6 @@
 
-//import { API_KEY } from './config.js';
-const API_KEY = process.env.API_KEY;
+import { API_KEY } from './config.js';
+
 export async function fetchData(url, wantedData) {
     //console.log("Fetching: ", wantedData)
     const response = await fetch(url, { headers: { 'project_id': `${API_KEY}` } })
