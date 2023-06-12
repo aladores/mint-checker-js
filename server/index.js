@@ -22,6 +22,7 @@ app.get('*', function (req, res) {
 
 
 const API_KEY = process.env.API_KEY;
+
 async function fetchData(url, wantedData) {
     //console.log("Fetching: ", wantedData)
     const response = await fetch(url, { headers: { 'project_id': `${API_KEY}` } })
