@@ -1,6 +1,3 @@
-
-
-import { fetchData, fetchPaginatedData } from './util.js';
 import {
   displayAddressSection, displayTransactionSection,
   updateAddressSectionTx, updateAddressSectionMint, toggleLoader,
@@ -212,6 +209,7 @@ function setInitialColorTheme() {
     : document.body.classList.remove("light-mode");
   setColorTheme();
 }
+
 setInitialColorTheme();
 addSearchEventListener();
 loadAddress();

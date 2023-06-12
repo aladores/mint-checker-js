@@ -2,7 +2,7 @@
   "name": "mint-checker",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "/server/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +10,11 @@
   "license": "ISC",
   "keywords": [],
   "dependencies": {
+    "dotenv": "^16.1.4",
     "express": "^4.18.2"
-  }
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  },
+  "type": "commonjs"
 }

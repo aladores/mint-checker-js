@@ -1,5 +1,3 @@
-import { downloadCSV } from './util.js';
-
 export function displayAddressSection(address, date) {
   const addressSection = document.getElementById("address-section");
   const addressContainer = document.getElementById("address-container");
@@ -72,7 +70,7 @@ export function displayTransactionSection(transactions) {
 
   const downloadButton = transactionsSection.querySelector('#download-button');
   downloadButton.addEventListener("click", () => {
-    downloadCSV(transactions, "mint-transactions");
+    handleCSVDownload(transactions, "mint-transactions");
   })
 
   //Pagination 
@@ -186,6 +184,25 @@ export function toggleLoader() {
   loader.classList.contains("hidden") ? loader.classList.remove("hidden") : loader.classList.add("hidden");
 }
 
+export function handleCSVDownload(data, fileName) {
+  const csvData = convertToCSV(data);
+  const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+  if (navigator.msSaveBlob) { // For IE 10+
+    navigator.msSaveBlob(blob, fileName);
+  } else {
+    const link = document.createElement('a');
+
+    if (link.download !== undefined) {
+      const url = URL.createObjectURL(blob);
+      link.setAttribute('href', url);
+      link.setAttribute('download', fileName);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  }
+}
+
 function removeSearchError() {
   const searchBar = document.getElementById("search-bar");
   const searchError = document.getElementById("search-error");
@@ -198,3 +215,17 @@ function removeInlineLoader() {
   loader.remove();
 }
 
+
+function convertToCSV(data) {
+  const csvRows = [];
+  const headers = Object.keys(data[0]);
+  csvRows.push(headers.join(','));
+
+  data.forEach(element => {
+    const values = Object.values(element)
+      .map((value) => `"${value}"`)
+      .join(',');
+    csvRows.push(values);
+  });
+  return csvRows.join('\n')
+}
