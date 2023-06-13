@@ -90,16 +90,16 @@ async function getSpecificAsset(mintTransactions, address) {
       })
       mintTransactions[i].output_amount = newArray;
     }
+
+    console.log(mintTransactions[i]);
     for (let j = 1; j < mintTransactions[i].output_amount.length; j++) {
-      let assetName = "";
       const asset = mintTransactions[i].output_amount[j].unit;
       const result = await fetch(`/api/specificAsset?asset=${asset}`);
       const jsonAsset = await result.json();
       if (jsonAsset.onchain_metadata !== null) {
-        console.log(jsonAsset.onchain_metadata);
-        assetName = findName(jsonAsset.onchain_metadata);
+        const assetName = findName(jsonAsset.onchain_metadata);
+        mintTransactions[i].output_amount[j].name = assetName;
       }
-      mintTransactions[i].output_amount[j].name = assetName;
     }
   }
 
@@ -113,7 +113,7 @@ async function getUxtoData(mintTransaction, address) {
   const sentData = uxtoData.outputs.filter((item) => {
     return item.address === address;
   });
-  console.log(sentData);
+
   for (let i = 0; i < sentData[0].amount.length; i++) {
     if (sentData[0].amount[i].unit === "lovelace") {
       sentUnits.push(sentData[0].amount[i].unit);
@@ -124,7 +124,6 @@ async function getUxtoData(mintTransaction, address) {
     const receivedUxtoData = await resultUxto.json();
     if (receivedUxtoData.initial_mint_tx_hash === mintTransaction.hash) {
       sentUnits.push(sentData[0].amount[i].unit);
-
     }
   };
   return sentUnits;
@@ -148,11 +147,16 @@ function findName(jsonAsset) {
 }
 
 function formatTransactions(transactions) {
+  console.log(transactions);
   const formattedTransactions = [];
 
   for (let i = 0; i < transactions.length; i++) {
     let names = [];
     const { block_time, hash } = transactions[i];
+    //Skip if lovelace only
+    if (transactions[i].output_amount.length == 1) {
+      continue;
+    }
     for (let j = 1; j < transactions[i].output_amount.length; j++) {
       names.push(transactions[i].output_amount[j].name);
     }
