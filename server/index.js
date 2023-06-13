@@ -15,11 +15,11 @@ const UXTO_STRING = "UXTO";
 app.use(express.static(clientPath));
 
 app.get("/", (req, res) => {
-    res.sendFile(path.join(clientPath, '/public/index.html'));
+    res.sendFile(path.join(clientPath, '/index.html'));
 })
 
 app.get("/address.html", (req, res) => {
-    res.sendFile(path.join(clientPath, '/public/address.html'));
+    res.sendFile(path.join(clientPath, '/address.html'));
 })
 
 app.get('/api/transactions', async (req, res) => {
