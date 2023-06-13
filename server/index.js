@@ -1,11 +1,17 @@
 const express = require('express');
-//const { fetchData, fetchPaginatedData } = require('./utils/api');
 const path = require('path');
 const app = express();
+const port = 3000;
 require('dotenv').config();
-
-
+const API_KEY = process.env.API_KEY;
+//const { fetchData, fetchPaginatedData } = require('./utils/api');
 const clientPath = path.join(__dirname, '../client');
+
+const ALL_TRANSACTION_STRING = "ALL TRANSACTIONS";
+const MINT_STRING = "SPECIFIC TRANSACTIONS";
+const ASSET_STRING = "SPECIFIC ASSET";
+const UXTO_STRING = "UXTO";
+
 app.use(express.static(clientPath));
 
 app.get("/", (req, res) => {
@@ -16,15 +22,41 @@ app.get("/address.html", (req, res) => {
     res.sendFile(path.join(clientPath, '/public/address.html'));
 })
 
+app.get('/api/transactions', async (req, res) => {
+    const address = req.query.address;
+    const transactions = await fetchPaginatedData(`https://cardano-mainnet.blockfrost.io/api/v0/addresses/${address}/transactions`, 'ALL_TRANSACTIONS');
+    res.json(transactions);
+});
+
+app.get('/api/specificTransactions', async (req, res) => {
+    const transaction = req.query.transaction;
+    const specificTransaction = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/txs/${transaction}`, 'SPECIFIC_TRANSACTIONS');
+    res.json(specificTransaction);
+});
+
+app.get('/api/uxto', async (req, res) => {
+    const mintTransaction = req.query.mintTransaction;
+    const uxtoData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/txs/${mintTransaction}/utxos`, 'UXTO_DATA');
+    res.json(uxtoData);
+});
+
+app.get('/api/uxtoReceived', async (req, res) => {
+    const asset = req.query.asset;
+    const uxtoReceived = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/assets/${asset}`, 'UXTO_RECEIVED');
+    res.json(uxtoReceived);
+});
+app.get('/api/specificAsset', async (req, res) => {
+    const asset = req.query.asset;
+    const specificAsset = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/assets/${asset}`, 'SPECIFIC_ASSET');
+    res.json(specificAsset);
+});
+
 app.get('*', function (req, res) {
     res.redirect('/');
 });
 
-
-const API_KEY = process.env.API_KEY;
-
 async function fetchData(url, wantedData) {
-    //console.log("Fetching: ", wantedData)
+    //console.log("Fetching: ", wantedData);
     const response = await fetch(url, { headers: { 'project_id': `${API_KEY}` } })
     if (response.status != 200) {
         console.log(`Error fetching ${wantedData} transactions: `, response)
@@ -33,7 +65,6 @@ async function fetchData(url, wantedData) {
     const jsonData = await response.json();
     return jsonData;
 }
-
 async function fetchPaginatedData(url, wantedData) {
     let currentPage = 1;
     let allTransactions = [];
@@ -43,11 +74,10 @@ async function fetchPaginatedData(url, wantedData) {
         currentPage++;
         pageData = await fetchData(url + `?page=${currentPage}`, wantedData);
     }
+
     return allTransactions;
 }
 
-
-const port = 3000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

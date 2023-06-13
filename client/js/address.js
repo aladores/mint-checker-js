@@ -4,11 +4,6 @@ import {
   displayError, displaySearchError, handleInputChange
 } from './display.js';
 
-const ALL_TRANSACTION_STRING = "ALL TRANSACTIONS"
-const MINT_STRING = "MINT TRANSACTIONS"
-const ASSET_STRING = "SPECIFIC ASSET"
-const UXTO_STRING = "UXTO"
-
 function handleSubmit() {
   const dateRange = document.getElementById("date-range");
   const searchBar = document.getElementById("search-bar");
@@ -33,7 +28,6 @@ function loadAddress() {
 async function updateDom(address, date) {
 
   displayAddressSection(address, date);
-
   const transactions = await getAllTransactions(address, date);
   if (transactions.length === 0) {
     displayError("No transactions found in this address:", address);
@@ -46,6 +40,7 @@ async function updateDom(address, date) {
     displayError("No mint transactions found in this address:", address);
     return;
   }
+
   updateAddressSectionMint(mintTransactions);
 
   toggleLoader();
@@ -55,8 +50,9 @@ async function updateDom(address, date) {
 }
 
 async function getAllTransactions(address, date) {
-  const jsonData = await fetchPaginatedData(`https://cardano-mainnet.blockfrost.io/api/v0/addresses/${address}/transactions`, ALL_TRANSACTION_STRING);
   const transactions = [];
+  const result = await fetch(`/api/transactions?address=${address}`);
+  const jsonData = await result.json();
 
   for (let i = 0; i < jsonData.length; i++) {
     if (date === "All") {
@@ -75,16 +71,16 @@ async function getAllTransactions(address, date) {
 async function getAllMintTransactions(transactions) {
   const mintTransactions = [];
   for (let i = 0; i < transactions.length; i++) {
-    const jsonData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/txs/${transactions[i]}`, MINT_STRING);
+    const result = await fetch(`/api/specificTransactions?transaction=${transactions[i]}`);
+    const jsonData = await result.json();
     if (jsonData.asset_mint_or_burn_count > 0) {
       mintTransactions.push(jsonData);
     }
   }
   return mintTransactions;
 }
+
 async function getSpecificAsset(mintTransactions, address) {
-  let assetName = "";
-  let param = "";
   for (let i = 0; i < mintTransactions.length; i++) {
     //Check uxto mint 
     if (mintTransactions[i].asset_mint_or_burn_count > 5 || mintTransactions[i].output_amount.length > 2) {
@@ -95,9 +91,12 @@ async function getSpecificAsset(mintTransactions, address) {
       mintTransactions[i].output_amount = newArray;
     }
     for (let j = 1; j < mintTransactions[i].output_amount.length; j++) {
-      param = mintTransactions[i].output_amount[j].unit;
-      const jsonAsset = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/assets/${param}`, ASSET_STRING);
+      let assetName = "";
+      const asset = mintTransactions[i].output_amount[j].unit;
+      const result = await fetch(`/api/specificAsset?asset=${asset}`);
+      const jsonAsset = await result.json();
       if (jsonAsset.onchain_metadata !== null) {
+        console.log(jsonAsset.onchain_metadata);
         assetName = findName(jsonAsset.onchain_metadata);
       }
       mintTransactions[i].output_amount[j].name = assetName;
@@ -105,6 +104,30 @@ async function getSpecificAsset(mintTransactions, address) {
   }
 
   return mintTransactions;
+}
+
+async function getUxtoData(mintTransaction, address) {
+  const sentUnits = [];
+  const result = await fetch(`/api/uxto?mintTransaction=${mintTransaction.hash}`);
+  const uxtoData = await result.json();
+  const sentData = uxtoData.outputs.filter((item) => {
+    return item.address === address;
+  });
+  console.log(sentData);
+  for (let i = 0; i < sentData[0].amount.length; i++) {
+    if (sentData[0].amount[i].unit === "lovelace") {
+      sentUnits.push(sentData[0].amount[i].unit);
+      continue;
+    }
+
+    const resultUxto = await fetch(`/api/uxtoReceived?asset=${sentData[0].amount[i].unit}`);
+    const receivedUxtoData = await resultUxto.json();
+    if (receivedUxtoData.initial_mint_tx_hash === mintTransaction.hash) {
+      sentUnits.push(sentData[0].amount[i].unit);
+
+    }
+  };
+  return sentUnits;
 }
 
 function findName(jsonAsset) {
@@ -122,26 +145,6 @@ function findName(jsonAsset) {
     default:
       return "No name found";
   }
-
-}
-async function getUxtoData(mintTransaction, address) {
-  const sentUnits = [];
-  const uxtoData = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/txs/${mintTransaction.hash}/utxos`, UXTO_STRING);
-  const sentData = uxtoData.outputs.filter((item) => {
-    return item.address === address;
-  });
-
-  for (let i = 0; i < sentData[0].amount.length; i++) {
-    if (sentData[0].amount[i].unit === "lovelace") {
-      sentUnits.push(sentData[0].amount[i].unit);
-      continue;
-    }
-    const receivedFromUxto = await fetchData(`https://cardano-mainnet.blockfrost.io/api/v0/assets/${sentData[0].amount[i].unit}`, ASSET_STRING);
-    if (receivedFromUxto.initial_mint_tx_hash === mintTransaction.hash) {
-      sentUnits.push(sentData[0].amount[i].unit);
-    }
-  };
-  return sentUnits;
 }
 
 function formatTransactions(transactions) {

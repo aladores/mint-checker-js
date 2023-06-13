@@ -63,7 +63,6 @@ export function displayTransactionSection(transactions) {
 
   const limitPerPage = 5;
   const pageLimit = Math.ceil(transactions.length / limitPerPage);
-  console.log(pageLimit);
   let currentPage = 1;
   let pageStart = 0;
   let pageEnd = 5;
