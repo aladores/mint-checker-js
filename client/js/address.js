@@ -91,7 +91,6 @@ async function getSpecificAsset(mintTransactions, address) {
       mintTransactions[i].output_amount = newArray;
     }
 
-    console.log(mintTransactions[i]);
     for (let j = 1; j < mintTransactions[i].output_amount.length; j++) {
       const asset = mintTransactions[i].output_amount[j].unit;
       const result = await fetch(`/api/specificAsset?asset=${asset}`);
@@ -147,7 +146,7 @@ function findName(jsonAsset) {
 }
 
 function formatTransactions(transactions) {
-  console.log(transactions);
+
   const formattedTransactions = [];
 
   for (let i = 0; i < transactions.length; i++) {
