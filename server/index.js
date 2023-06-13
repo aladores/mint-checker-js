@@ -1,10 +1,10 @@
 const express = require('express');
 const path = require('path');
 const app = express();
-const port = 3000;
+
 require('dotenv').config();
+const port = process.env.PORT;
 const API_KEY = process.env.API_KEY;
-//const { fetchData, fetchPaginatedData } = require('./utils/api');
 const clientPath = path.join(__dirname, '../client');
 
 const ALL_TRANSACTION_STRING = "ALL TRANSACTIONS";
