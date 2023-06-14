@@ -1,4 +1,4 @@
 [build]
     base ="/"
-    public="client/"
-    functions = "server/index.js"
+    public="/client"
+    functions = "/server"
