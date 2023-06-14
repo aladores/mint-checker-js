@@ -7,11 +7,6 @@ const port = process.env.PORT;
 const API_KEY = process.env.API_KEY;
 const clientPath = path.join(__dirname, '../client');
 
-const ALL_TRANSACTION_STRING = "ALL TRANSACTIONS";
-const MINT_STRING = "SPECIFIC TRANSACTIONS";
-const ASSET_STRING = "SPECIFIC ASSET";
-const UXTO_STRING = "UXTO";
-
 app.use(express.static(clientPath));
 
 app.get("/", (req, res) => {
