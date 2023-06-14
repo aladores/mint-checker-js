@@ -7,13 +7,13 @@ import {
 function handleSubmit() {
   const dateRange = document.getElementById("date-range");
   const searchBar = document.getElementById("search-bar");
-
-  if (!searchBar.value.startsWith("addr")) {
+  const searchBarValue = searchBar.value.trim().toLowerCase();
+  if (!searchBarValue.startsWith("addr")) {
     const location = window.location.href;
     displaySearchError(location);
     return;
   }
-  window.location = "address.html" + `?addr=${searchBar.value}` + `&date=${dateRange.value}`;
+  window.location = "address.html" + `?addr=${searchBarValue}` + `&date=${dateRange.value}`;
 }
 
 function loadAddress() {
@@ -21,7 +21,8 @@ function loadAddress() {
 
   if (urlSearchParams.has("addr")) {
     const formData = Object.fromEntries(urlSearchParams.entries());
-    updateDom(formData.addr, formData.date);
+    const address = formData.addr.toLowerCase();
+    updateDom(address, formData.date);
   }
 }
 
