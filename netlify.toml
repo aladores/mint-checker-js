@@ -1,8 +1,8 @@
 [build]
     base ="/"
-    public="/client"
+    public="client/"
     build = "node server/index.js"
-    functions = "server/index.js"
+    functions = "server/"
 [[redirects]]
     from = "/*"
     to = "public/index.html"
