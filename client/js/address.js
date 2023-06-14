@@ -20,7 +20,6 @@ function loadAddress() {
   const urlSearchParams = new URLSearchParams(window.location.search);
 
   if (urlSearchParams.has("addr")) {
-    console.log("here");
     const formData = Object.fromEntries(urlSearchParams.entries());
     updateDom(formData.addr, formData.date);
   }

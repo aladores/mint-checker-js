@@ -23,6 +23,7 @@ app.get("/address.html", (req, res) => {
 })
 
 app.get('/api/transactions', async (req, res) => {
+    console.log("calling api");
     const address = req.query.address;
     const transactions = await fetchPaginatedData(`https://cardano-mainnet.blockfrost.io/api/v0/addresses/${address}/transactions`, 'ALL_TRANSACTIONS');
     res.json(transactions);
