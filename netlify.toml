@@ -1,4 +1,9 @@
 [build]
     base ="/"
     public="/client"
+    build = "node server/index.js"
     functions = "/server"
+[[redirects]]
+    from = "/*"
+    to = "public/index.html"
+    status = 200
